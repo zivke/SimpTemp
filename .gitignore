@@ -1,0 +1,7 @@
+# IDE
+.vscode/
+.idea/
+
+# Build
+bin/
+build/
