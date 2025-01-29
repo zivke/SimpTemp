@@ -186,7 +186,7 @@ class SimpTempView extends WatchUi.View {
         var y = Math.ceil(
           chartY + chartHeight - (temperatureHistory[i] - chartMinimum) * yScale
         );
-        dc.drawLine(chartX + i, chartY + chartHeight, x, y);
+        dc.drawLine(chartX + i, chartY + chartHeight - 1, x, y);
       }
     }
 
