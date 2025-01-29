@@ -52,8 +52,29 @@ class SimpTempView extends WatchUi.View {
       :order => SensorHistory.ORDER_NEWEST_FIRST,
     });
 
+    drawCurrentTime(dc);
     drawTemperatureValues(dc, temperatureIterator);
     drawTemperatureChart(dc, temperatureIterator);
+  }
+
+  function drawCurrentTime(dc as Graphics.Dc) {
+    var currentTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    var timeFormat = "$1$:$2$"; // Time format (HH:MM)
+
+    // Set text color to black
+    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+
+    // Draw the current time
+    dc.drawText(
+      dc.getWidth() / 2 - 6,
+      10,
+      Graphics.FONT_XTINY,
+      Lang.format(timeFormat, [
+        currentTime.hour.format("%02d"),
+        currentTime.min.format("%02d"),
+      ]),
+      Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+    );
   }
 
   // Draw the temperature values
@@ -83,7 +104,7 @@ class SimpTempView extends WatchUi.View {
     minimumTemperature = iter.getMin();
     dc.drawText(
       20,
-      20,
+      22,
       Graphics.FONT_XTINY,
       "min: " + minimumTemperature.format("%.1f") + "°",
       Graphics.TEXT_JUSTIFY_LEFT
@@ -93,7 +114,7 @@ class SimpTempView extends WatchUi.View {
     maximumTemperature = iter.getMax();
     dc.drawText(
       20,
-      40,
+      42,
       Graphics.FONT_XTINY,
       "max: " + maximumTemperature.format("%.1f") + "°",
       Graphics.TEXT_JUSTIFY_LEFT
@@ -125,9 +146,9 @@ class SimpTempView extends WatchUi.View {
     }
 
     var chartWidth = 120; // Chart width with padding
-    var chartHeight = 70; // Chart height
+    var chartHeight = 80; // Chart height
     var chartX = (dc.getWidth() - chartWidth) / 2; // X position of the chart
-    var chartY = dc.getHeight() - chartHeight - 30; // Y position of the chart
+    var chartY = dc.getHeight() - chartHeight - 20; // Y position of the chart
     var historySize = 120; // 120 data points (4 hours, every 2 minutes)
     var temperatureHistory = new Lang.Array<
       Number or Float or Null
@@ -136,11 +157,6 @@ class SimpTempView extends WatchUi.View {
     // Adjust min and max to ensure a visible range
     var chartMinimum = Math.floor(minimumTemperature).toNumber() - 4;
     var chartMaximum = Math.ceil(maximumTemperature).toNumber() + 4;
-
-    // Draw X-axis labels (time)
-    var timeFormat = "$1$:$2$"; // Time format (HH:MM)
-    var startTimeLabel = Gregorian.info(startTime, Time.FORMAT_SHORT);
-    var endTimeLabel = Gregorian.info(endTime, Time.FORMAT_SHORT);
 
     for (
       var sensorSample = iter.next();
@@ -172,26 +188,12 @@ class SimpTempView extends WatchUi.View {
       }
     }
 
-    // Draw X-axis labels (start/end time)
     dc.drawText(
-      chartX - 5,
-      chartY + chartHeight + 7,
+      dc.getWidth() / 2,
+      chartY + chartHeight + 8,
       Graphics.FONT_XTINY,
-      Lang.format(timeFormat, [
-        startTimeLabel.hour.format("%02d"),
-        startTimeLabel.min.format("%02d"),
-      ]),
-      Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
-    );
-    dc.drawText(
-      chartX + chartWidth + 5,
-      chartY + chartHeight + 7,
-      Graphics.FONT_XTINY,
-      Lang.format(timeFormat, [
-        endTimeLabel.hour.format("%02d"),
-        endTimeLabel.min.format("%02d"),
-      ]),
-      Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER
+      "Last 4 hours",
+      Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
     );
 
     // Display min and max temperature values on the chart (white circles)
