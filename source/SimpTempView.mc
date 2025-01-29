@@ -202,62 +202,56 @@ class SimpTempView extends WatchUi.View {
     for (var i = 0; i < historySize; i++) {
       if (temperatureHistory[i] == minimumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY + chartHeight - 5;
-        drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_WHITE, 0);
+        var y = chartY + chartHeight - 9;
+        drawMinTriangle(dc, x, y);
       }
       if (temperatureHistory[i] == maximumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY + 5;
-        drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_BLACK, 180);
+        var y = chartY + 8;
+        drawMaxTriangle(dc, x, y);
       }
     }
   }
 
-  // Draw an equilateral triangle with a given center, side length, color, and rotation in degrees
-  function drawEquilateralTriangle(
+  // Draw the triangle to indicate the minimum temperature value
+  function drawMinTriangle(
     dc as Graphics.Dc,
-    centerX as Numeric,
-    centerY as Numeric,
-    sideLength as Number,
-    color as Graphics.ColorValue,
-    rotationDegrees as Number
+    pointX as Numeric,
+    pointY as Numeric
   ) {
-    // Calculate the height of the equilateral triangle
-    var height = (Math.sqrt(3) / 2) * sideLength;
-
-    // Calculate the coordinates of the three vertices before rotation
-    var x1 = centerX - sideLength / 2;
-    var y1 = centerY + height / 2;
-
-    var x2 = centerX + sideLength / 2;
-    var y2 = centerY + height / 2;
-
-    var x3 = centerX;
-    var y3 = centerY - height / 2;
-
-    // Rotate the points around the center
-    var cos = Math.cos(Math.toRadians(rotationDegrees));
-    var sin = Math.sin(Math.toRadians(rotationDegrees));
-
-    var rotatedX1 = Math.ceil(centerX + (x1 - centerX) * cos - (y1 - centerY) * sin);
-    var rotatedY1 = Math.ceil(centerY + (x1 - centerX) * sin + (y1 - centerY) * cos);
-
-    var rotatedX2 = Math.ceil(centerX + (x2 - centerX) * cos - (y2 - centerY) * sin);
-    var rotatedY2 = Math.ceil(centerY + (x2 - centerX) * sin + (y2 - centerY) * cos);
-
-    var rotatedX3 = Math.ceil(centerX + (x3 - centerX) * cos - (y3 - centerY) * sin);
-    var rotatedY3 = Math.ceil(centerY + (x3 - centerX) * sin + (y3 - centerY) * cos);
-
     // Create the polygon points array
     var points = [
-      [rotatedX1, rotatedY1],
-      [rotatedX2, rotatedY2],
-      [rotatedX3, rotatedY3],
-      [rotatedX1, rotatedY1],
+      [pointX, pointY],
+      [pointX + 4, pointY + 7],
+      [pointX - 4, pointY + 7],
     ];
 
     // Draw the triangle
-    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+    dc.fillPolygon(points);
+
+    // Draw the triangle outline (so it is visible if it goes outside of the chart)
+    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+    dc.drawLine(pointX, pointY - 1, pointX + 5, pointY + 8);
+    dc.drawLine(pointX + 5, pointY + 8, pointX - 5, pointY + 8);
+    dc.drawLine(pointX - 5, pointY + 8, pointX, pointY - 1);
+  }
+
+  // Draw the triangle to indicate the minimum temperature value
+  function drawMaxTriangle(
+    dc as Graphics.Dc,
+    pointX as Numeric,
+    pointY as Numeric
+  ) {
+    // Create the polygon points array
+    var points = [
+      [pointX, pointY],
+      [pointX + 4, pointY - 7],
+      [pointX - 4, pointY - 7],
+    ];
+
+    // Draw the triangle
+    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
     dc.fillPolygon(points);
   }
 
