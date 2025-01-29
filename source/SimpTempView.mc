@@ -134,8 +134,8 @@ class SimpTempView extends WatchUi.View {
     >[historySize]; // Initialize temperature history array
 
     // Adjust min and max to ensure a visible range
-    var chartMinimum = Math.floor(minimumTemperature).toNumber() - 1;
-    var chartMaximum = Math.ceil(maximumTemperature).toNumber() + 1;
+    var chartMinimum = Math.floor(minimumTemperature).toNumber() - 4;
+    var chartMaximum = Math.ceil(maximumTemperature).toNumber() + 4;
 
     // Draw X-axis labels (time)
     var timeFormat = "$1$:$2$"; // Time format (HH:MM)
@@ -195,19 +195,66 @@ class SimpTempView extends WatchUi.View {
     );
 
     // Display min and max temperature values on the chart (white circles)
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     for (var i = 0; i < historySize; i++) {
       if (temperatureHistory[i] == minimumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY + chartHeight - 4;
-        dc.fillCircle(x, y, 2);
+        var y = chartY + chartHeight - 3;
+        drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_WHITE, 0);
       }
       if (temperatureHistory[i] == maximumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY + chartHeight - 4;
-        dc.fillCircle(x, y, 2);
+        var y = chartY;
+        drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_BLACK, 180);
       }
     }
+  }
+
+  // Draw an equilateral triangle with a given center, side length, color, and rotation in degrees
+  function drawEquilateralTriangle(
+    dc as Graphics.Dc,
+    centerX as Numeric,
+    centerY as Numeric,
+    sideLength as Number,
+    color as Graphics.ColorValue,
+    rotationDegrees as Number
+  ) {
+    // Calculate the height of the equilateral triangle
+    var height = (Math.sqrt(3) / 2) * sideLength;
+
+    // Calculate the coordinates of the three vertices before rotation
+    var x1 = centerX - sideLength / 2;
+    var y1 = centerY + height / 2;
+
+    var x2 = centerX + sideLength / 2;
+    var y2 = centerY + height / 2;
+
+    var x3 = centerX;
+    var y3 = centerY - height / 2;
+
+    // Rotate the points around the center
+    var cos = Math.cos(Math.toRadians(rotationDegrees));
+    var sin = Math.sin(Math.toRadians(rotationDegrees));
+
+    var rotatedX1 = centerX + (x1 - centerX) * cos - (y1 - centerY) * sin;
+    var rotatedY1 = centerY + (x1 - centerX) * sin + (y1 - centerY) * cos;
+
+    var rotatedX2 = centerX + (x2 - centerX) * cos - (y2 - centerY) * sin;
+    var rotatedY2 = centerY + (x2 - centerX) * sin + (y2 - centerY) * cos;
+
+    var rotatedX3 = centerX + (x3 - centerX) * cos - (y3 - centerY) * sin;
+    var rotatedY3 = centerY + (x3 - centerX) * sin + (y3 - centerY) * cos;
+
+    // Create the polygon points array
+    var points = [
+      [rotatedX1, rotatedY1],
+      [rotatedX2, rotatedY2],
+      [rotatedX3, rotatedY3],
+      [rotatedX1, rotatedY1],
+    ];
+
+    // Draw the triangle
+    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+    dc.fillPolygon(points);
   }
 
   // Called when this View is removed from the screen. Save the
