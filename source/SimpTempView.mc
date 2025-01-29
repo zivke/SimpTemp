@@ -174,6 +174,9 @@ class SimpTempView extends WatchUi.View {
 
     dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 
+    // Draw chart frame (FOR DEBUGGING PURPOSES)
+    // dc.drawRectangle(chartX, chartY, chartWidth, chartHeight);
+
     // Draw chart
     var xStep = chartWidth.toFloat() / historySize;
     var yScale = chartHeight.toFloat() / (chartMaximum - chartMinimum);
@@ -196,16 +199,16 @@ class SimpTempView extends WatchUi.View {
       Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
     );
 
-    // Display min and max temperature values on the chart (white circles)
+    // Display min and max temperature values on the chart (triangles)
     for (var i = 0; i < historySize; i++) {
       if (temperatureHistory[i] == minimumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY + chartHeight - 3;
+        var y = chartY + chartHeight - 4;
         drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_WHITE, 0);
       }
       if (temperatureHistory[i] == maximumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY;
+        var y = chartY + 4;
         drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_BLACK, 180);
       }
     }
