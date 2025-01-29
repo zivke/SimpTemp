@@ -182,11 +182,10 @@ class SimpTempView extends WatchUi.View {
     var yScale = chartHeight.toFloat() / (chartMaximum - chartMinimum);
     for (var i = 1; i < historySize; i++) {
       if (temperatureHistory[i] != null) {
-        var x = chartX + i * xStep;
-        var y =
-          chartY +
-          chartHeight -
-          (temperatureHistory[i] - chartMinimum) * yScale; // minimumTemperature?
+        var x = Math.ceil(chartX + i * xStep);
+        var y = Math.ceil(
+          chartY + chartHeight - (temperatureHistory[i] - chartMinimum) * yScale
+        );
         dc.drawLine(chartX + i, chartY + chartHeight, x, y);
       }
     }
@@ -203,12 +202,12 @@ class SimpTempView extends WatchUi.View {
     for (var i = 0; i < historySize; i++) {
       if (temperatureHistory[i] == minimumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY + chartHeight - 4;
+        var y = chartY + chartHeight - 5;
         drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_WHITE, 0);
       }
       if (temperatureHistory[i] == maximumTemperature) {
         var x = chartX + i * xStep;
-        var y = chartY + 4;
+        var y = chartY + 5;
         drawEquilateralTriangle(dc, x, y, 8, Graphics.COLOR_BLACK, 180);
       }
     }
@@ -240,14 +239,14 @@ class SimpTempView extends WatchUi.View {
     var cos = Math.cos(Math.toRadians(rotationDegrees));
     var sin = Math.sin(Math.toRadians(rotationDegrees));
 
-    var rotatedX1 = centerX + (x1 - centerX) * cos - (y1 - centerY) * sin;
-    var rotatedY1 = centerY + (x1 - centerX) * sin + (y1 - centerY) * cos;
+    var rotatedX1 = Math.ceil(centerX + (x1 - centerX) * cos - (y1 - centerY) * sin);
+    var rotatedY1 = Math.ceil(centerY + (x1 - centerX) * sin + (y1 - centerY) * cos);
 
-    var rotatedX2 = centerX + (x2 - centerX) * cos - (y2 - centerY) * sin;
-    var rotatedY2 = centerY + (x2 - centerX) * sin + (y2 - centerY) * cos;
+    var rotatedX2 = Math.ceil(centerX + (x2 - centerX) * cos - (y2 - centerY) * sin);
+    var rotatedY2 = Math.ceil(centerY + (x2 - centerX) * sin + (y2 - centerY) * cos);
 
-    var rotatedX3 = centerX + (x3 - centerX) * cos - (y3 - centerY) * sin;
-    var rotatedY3 = centerY + (x3 - centerX) * sin + (y3 - centerY) * cos;
+    var rotatedX3 = Math.ceil(centerX + (x3 - centerX) * cos - (y3 - centerY) * sin);
+    var rotatedY3 = Math.ceil(centerY + (x3 - centerX) * sin + (y3 - centerY) * cos);
 
     // Create the polygon points array
     var points = [
