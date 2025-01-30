@@ -145,7 +145,7 @@ class SimpTempView extends WatchUi.View {
       return;
     }
 
-    var chartWidth = 120; // Chart width with padding
+    var chartWidth = 120; // Chart width
     var chartHeight = 80; // Chart height
     var chartX = (dc.getWidth() - chartWidth) / 2; // X position of the chart
     var chartY = dc.getHeight() - chartHeight - 20; // Y position of the chart
@@ -155,8 +155,8 @@ class SimpTempView extends WatchUi.View {
     >[historySize]; // Initialize temperature history array
 
     // Adjust min and max to ensure a visible range
-    var chartMinimum = Math.floor(minimumTemperature).toNumber() - 4;
-    var chartMaximum = Math.ceil(maximumTemperature).toNumber() + 4;
+    var chartMinimum = Math.floor(minimumTemperature).toNumber() - 5;
+    var chartMaximum = Math.ceil(maximumTemperature).toNumber() + 5;
 
     for (
       var sensorSample = iter.next();
@@ -164,6 +164,7 @@ class SimpTempView extends WatchUi.View {
       sensorSample = iter.next()
     ) {
       var timeDiff = sensorSample.when.subtract(startTime);
+      //   System.print("Time diff: " + timeDiff.value() + "\t");
       var index = Math.floor(timeDiff.value() / 120); // Every 2 minutes
       temperatureHistory[index] = sensorSample.data;
     }
@@ -180,7 +181,7 @@ class SimpTempView extends WatchUi.View {
     // Draw chart
     var xStep = chartWidth.toFloat() / historySize;
     var yScale = chartHeight.toFloat() / (chartMaximum - chartMinimum);
-    for (var i = 1; i < historySize; i++) {
+    for (var i = 0; i < historySize; i++) {
       if (temperatureHistory[i] != null) {
         var x = Math.ceil(chartX + i * xStep);
         var y = Math.ceil(
@@ -201,13 +202,13 @@ class SimpTempView extends WatchUi.View {
     // Display min and max temperature values on the chart (triangles)
     for (var i = 0; i < historySize; i++) {
       if (temperatureHistory[i] == minimumTemperature) {
-        var x = chartX + i * xStep;
-        var y = chartY + chartHeight - 9;
+        var x = Math.ceil(chartX + i * xStep).toNumber();
+        var y = chartY + chartHeight - 7;
         drawMinTriangle(dc, x, y);
       }
       if (temperatureHistory[i] == maximumTemperature) {
-        var x = chartX + i * xStep;
-        var y = chartY + 8;
+        var x = Math.ceil(chartX + i * xStep).toNumber();
+        var y = chartY + 6;
         drawMaxTriangle(dc, x, y);
       }
     }
@@ -216,14 +217,14 @@ class SimpTempView extends WatchUi.View {
   // Draw the triangle to indicate the minimum temperature value
   function drawMinTriangle(
     dc as Graphics.Dc,
-    pointX as Numeric,
-    pointY as Numeric
+    pointX as Number,
+    pointY as Number
   ) {
     // Create the polygon points array
     var points = [
       [pointX, pointY],
-      [pointX + 4, pointY + 7],
-      [pointX - 4, pointY + 7],
+      [pointX + 4, pointY + 4],
+      [pointX - 4, pointY + 4],
     ];
 
     // Draw the triangle
@@ -232,22 +233,22 @@ class SimpTempView extends WatchUi.View {
 
     // Draw the triangle outline (so it is visible if it goes outside of the chart)
     dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-    dc.drawLine(pointX, pointY - 1, pointX + 5, pointY + 8);
-    dc.drawLine(pointX + 5, pointY + 8, pointX - 5, pointY + 8);
-    dc.drawLine(pointX - 5, pointY + 8, pointX, pointY - 1);
+    dc.drawLine(pointX, pointY - 1, pointX + 5, pointY + 4);
+    dc.drawLine(pointX, pointY - 1, pointX - 5, pointY + 4);
+    dc.drawLine(pointX + 5, pointY + 4, pointX - 5, pointY + 4);
   }
 
   // Draw the triangle to indicate the minimum temperature value
   function drawMaxTriangle(
     dc as Graphics.Dc,
-    pointX as Numeric,
-    pointY as Numeric
+    pointX as Number,
+    pointY as Number
   ) {
     // Create the polygon points array
     var points = [
       [pointX, pointY],
-      [pointX + 4, pointY - 7],
-      [pointX - 4, pointY - 7],
+      [pointX + 4, pointY - 4],
+      [pointX - 4, pointY - 4],
     ];
 
     // Draw the triangle
