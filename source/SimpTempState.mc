@@ -2,6 +2,7 @@ import Toybox.Lang;
 import Toybox.SensorHistory;
 import Toybox.System;
 import Toybox.Time;
+import Toybox.Timer;
 
 class SimpTempState {
   var historySize as Number = 120; // 120 data points (4 hours, every 2 minutes)
@@ -11,9 +12,9 @@ class SimpTempState {
   var minimumTemperature as Number or Float or Null; // Minimum temperature value
   var maximumTemperature as Number or Float or Null; // Maximum temperature value
 
-  function load() {
-    reset();
+  var timer as Timer.Timer = new Timer.Timer();
 
+  function initialize() {
     // Check device for SensorHistory compatibility
     if (
       !(Toybox has :SensorHistory) ||
@@ -22,6 +23,14 @@ class SimpTempState {
       // TODO: Not supported - display a text message
       return; // TODO
     }
+
+    load();
+
+    timer.start(method(:load), 120000, true); // Load the temperature data every 2 minutes
+  }
+
+  function load() as Void {
+    reset();
 
     // Get the temperature history iterator
     var temperatureIterator = Toybox.SensorHistory.getTemperatureHistory({
@@ -51,6 +60,8 @@ class SimpTempState {
 
     self.minimumTemperature = temperatureIterator.getMin();
     self.maximumTemperature = temperatureIterator.getMax();
+
+    WatchUi.requestUpdate();
   }
 
   function reset() as Void {

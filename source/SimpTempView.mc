@@ -25,8 +25,6 @@ class SimpTempView extends WatchUi.View {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
-    simpTempState.load();
-
     // Call the parent onUpdate function to redraw the layout
     View.onUpdate(dc);
 
