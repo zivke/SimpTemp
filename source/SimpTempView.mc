@@ -205,11 +205,16 @@ class SimpTempView extends WatchUi.View {
         var x = Math.ceil(chartX + i * xStep).toNumber();
         var y = chartY + chartHeight - 7;
         drawMinTriangle(dc, x, y);
+        break;
       }
+    }
+
+    for (var i = 0; i < historySize; i++) {
       if (temperatureHistory[i] == maximumTemperature) {
         var x = Math.ceil(chartX + i * xStep).toNumber();
         var y = chartY + 6;
         drawMaxTriangle(dc, x, y);
+        break;
       }
     }
   }
