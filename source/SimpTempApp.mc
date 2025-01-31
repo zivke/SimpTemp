@@ -4,12 +4,15 @@ import Toybox.WatchUi;
 
 class SimpTempApp extends Application.AppBase {
 
+    var simpTempState = new SimpTempState();
+
     function initialize() {
         AppBase.initialize();
     }
 
     // onStart() is called on application start up
     function onStart(state as Dictionary?) as Void {
+        simpTempState.load();
     }
 
     // onStop() is called when your application is exiting
@@ -18,7 +21,7 @@ class SimpTempApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new SimpTempView() ] as Array<Views or InputDelegates>;
+        return [ new SimpTempView(simpTempState as SimpTempState) ] as Array<Views or InputDelegates>;
     }
 
 }
