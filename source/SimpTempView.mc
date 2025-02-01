@@ -5,8 +5,9 @@ import Toybox.System;
 import Toybox.Time;
 import Toybox.WatchUi;
 
+(:glance)
 class SimpTempView extends WatchUi.View {
-  var simpTempState as SimpTempState;
+  var simpTempState as SimpTempState?;
 
   function initialize(simpTempState as SimpTempState) {
     self.simpTempState = simpTempState;

@@ -2,11 +2,14 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
+(:glance)
 class SimpTempApp extends Application.AppBase {
-  var simpTempState = new SimpTempState();
+  var simpTempState as SimpTempState;
 
   function initialize() {
     AppBase.initialize();
+
+    simpTempState = new SimpTempState();
   }
 
   // onStart() is called on application start up
@@ -14,6 +17,14 @@ class SimpTempApp extends Application.AppBase {
 
   // onStop() is called when your application is exiting
   function onStop(state as Dictionary?) as Void {}
+
+  (:glance)
+  function getGlanceView() as Array<GlanceView>? {
+    return (
+      [new SimpTempGlanceView(simpTempState as SimpTempState)] as
+      Array<GlanceView>
+    );
+  }
 
   // Return the initial view of your application here
   function getInitialView() as Array<Views or InputDelegates>? {

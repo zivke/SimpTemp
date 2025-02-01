@@ -4,6 +4,7 @@ import Toybox.System;
 import Toybox.Time;
 import Toybox.Timer;
 
+(:glance)
 class SimpTempState {
   var historySize as Number = 120; // 120 data points (4 hours, every 2 minutes)
   var temperatureHistory as Lang.Array<Number or Float or Null> =
