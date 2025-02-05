@@ -115,16 +115,15 @@ class SimpTempView extends WatchUi.View {
     // dc.drawRectangle(chartX, chartY, chartWidth, chartHeight);
 
     // Draw chart
-    var xStep = chartWidth.toFloat() / simpTempState.historySize;
     var yScale = chartHeight.toFloat() / (chartMaximum - chartMinimum);
     for (var i = 0; i < simpTempState.historySize; i++) {
       var temp = simpTempState.temperatureHistory[i];
       if (temp != null) {
-        var x = Math.ceil(chartX + i * xStep);
+        var x = chartX + i;
         var y = Math.ceil(
           chartY + chartHeight - (temp - chartMinimum) * yScale
         );
-        dc.drawLine(chartX + i, chartY + chartHeight - 1, x, y);
+        dc.drawLine(x, chartY + chartHeight - 1, x, y);
       }
     }
 
@@ -141,7 +140,7 @@ class SimpTempView extends WatchUi.View {
       if (
         simpTempState.temperatureHistory[i] == simpTempState.minimumTemperature
       ) {
-        var x = Math.ceil(chartX + i * xStep).toNumber();
+        var x = chartX + i;
         var y = chartY + chartHeight - 7;
         drawMinTriangle(dc, x, y);
         break;
@@ -152,7 +151,7 @@ class SimpTempView extends WatchUi.View {
       if (
         simpTempState.temperatureHistory[i] == simpTempState.maximumTemperature
       ) {
-        var x = Math.ceil(chartX + i * xStep).toNumber();
+        var x = chartX + i;
         var y = chartY + 6;
         drawMaxTriangle(dc, x, y);
         break;
