@@ -29,10 +29,6 @@ class SimpTempView extends WatchUi.View {
     // Call the parent onUpdate function to redraw the layout
     View.onUpdate(dc);
 
-    // Clear the screen
-    dc.setColor(Graphics.COLOR_TRANSPARENT, Graphics.COLOR_WHITE);
-    dc.clear();
-
     drawCurrentTime(dc);
     drawTemperatureValues(dc);
     drawTemperatureChart(dc);
@@ -41,50 +37,42 @@ class SimpTempView extends WatchUi.View {
   function drawCurrentTime(dc as Graphics.Dc) {
     var currentTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var timeFormat = "$1$:$2$"; // Time format (HH:MM)
-
-    // Set text color to black
-    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-
-    // Draw the current time
-    dc.drawText(
-      dc.getWidth() / 2 - 6,
-      10,
-      Graphics.FONT_XTINY,
-      Lang.format(timeFormat, [
-        currentTime.hour.format("%02d"),
-        currentTime.min.format("%02d"),
-      ]),
-      Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
-    );
+    var clockLabel = View.findDrawableById("clockValue") as Text?;
+    if (clockLabel != null) {
+      clockLabel.setText(
+        Lang.format(timeFormat, [
+          currentTime.hour.format("%02d"),
+          currentTime.min.format("%02d"),
+        ])
+      );
+    }
   }
 
   // Draw the temperature values
   function drawTemperatureValues(dc as Graphics.Dc) {
-    // Set text color to black
-    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-    dc.drawText(
-      145,
-      20,
-      Graphics.FONT_SMALL,
-      simpTempState.temperature.format("%.1f") + "°",
-      Graphics.TEXT_JUSTIFY_CENTER
-    );
+    // Set the temperature label value
+    var temperatureLabel = View.findDrawableById("temperatureValue") as Text?;
+    if (temperatureLabel != null) {
+      temperatureLabel.setText(simpTempState.temperature.format("%.1f") + "°");
+    }
 
-    dc.drawText(
-      20,
-      22,
-      Graphics.FONT_XTINY,
-      "min: " + simpTempState.minimumTemperature.format("%.1f") + "°",
-      Graphics.TEXT_JUSTIFY_LEFT
-    );
+    // Set the minimum temperature label value
+    var minimumTemperatureLabel =
+      View.findDrawableById("minimumTemperatureValue") as Text?;
+    if (minimumTemperatureLabel != null) {
+      minimumTemperatureLabel.setText(
+        "min: " + simpTempState.minimumTemperature.format("%.1f") + "°"
+      );
+    }
 
-    dc.drawText(
-      20,
-      42,
-      Graphics.FONT_XTINY,
-      "max: " + simpTempState.maximumTemperature.format("%.1f") + "°",
-      Graphics.TEXT_JUSTIFY_LEFT
-    );
+    // Set the maximum temperature label value
+    var maximumTemperatureLabel =
+      View.findDrawableById("maximumTemperatureValue") as Text?;
+    if (maximumTemperatureLabel != null) {
+      maximumTemperatureLabel.setText(
+        "max: " + simpTempState.maximumTemperature.format("%.1f") + "°"
+      );
+    }
   }
 
   // Draw the temperature chart
@@ -108,8 +96,6 @@ class SimpTempView extends WatchUi.View {
       Math.floor(simpTempState.minimumTemperature).toNumber() - 5;
     var chartMaximum =
       Math.ceil(simpTempState.maximumTemperature).toNumber() + 5;
-
-    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 
     // Draw chart frame (FOR DEBUGGING PURPOSES)
     // dc.drawRectangle(chartX, chartY, chartWidth, chartHeight);
