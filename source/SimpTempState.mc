@@ -48,6 +48,10 @@ class SimpTempState {
     }
 
     var sensorSample = temperatureIterator.next();
+    if (sensorSample == null) {
+      // No data - skip drawing the chart
+      return;
+    }
     self.temperature = sensorSample.data;
 
     while (sensorSample != null) {
