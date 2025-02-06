@@ -1,5 +1,9 @@
 <resources>
 	<layouts>
+		<layout id="GlanceLayout" scope="Glance">
+			<label id="AppNameLabel" text="@Strings.AppName" x="0" y="0" color="Graphics.COLOR_WHITE" font="Graphics.FONT_GLANCE" justification="Graphics.TEXT_JUSTIFY_LEFT" />
+			<label id="temperatureValue" text="" x="0" y="22" color="Graphics.COLOR_WHITE" font="Graphics.FONT_GLANCE" justification="Graphics.TEXT_JUSTIFY_LEFT" />
+		</layout>
 		<layout id="MainLayout">
 			<drawable id="MainBackground" class="MainBackgroundDrawable">
 				<param name="color">
