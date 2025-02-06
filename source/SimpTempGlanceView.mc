@@ -33,7 +33,10 @@ class SimpTempGlanceView extends WatchUi.GlanceView {
       0,
       0,
       Graphics.FONT_GLANCE,
-      "SimpTemp\n" + simpTempState.temperature.format("%.1f") + "°",
+      Application.loadResource(Rez.Strings.AppName) +
+        "\n" +
+        simpTempState.temperature.format("%.1f") +
+        "°",
       Graphics.TEXT_JUSTIFY_LEFT
     );
   }
