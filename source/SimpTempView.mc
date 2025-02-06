@@ -11,6 +11,7 @@ class SimpTempView extends WatchUi.View {
 
   function initialize(simpTempState as SimpTempState) {
     self.simpTempState = simpTempState;
+
     View.initialize();
   }
 
@@ -26,11 +27,14 @@ class SimpTempView extends WatchUi.View {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
+    drawCurrentTime(dc);
+    drawTemperatureValues(dc);
+
+    // TODO: Investigate!
+    // IMPORTANT: The following call cannot be excuted after drawing the chart
     // Call the parent onUpdate function to redraw the layout
     View.onUpdate(dc);
 
-    drawCurrentTime(dc);
-    drawTemperatureValues(dc);
     drawTemperatureChart(dc);
   }
 
