@@ -7,10 +7,10 @@ import Toybox.WatchUi;
 
 (:glance)
 class SimpTempView extends WatchUi.View {
-  var simpTempState as SimpTempState;
+  private var _simpTempState as SimpTempState;
 
   function initialize(simpTempState as SimpTempState) {
-    self.simpTempState = simpTempState;
+    self._simpTempState = simpTempState;
 
     View.initialize();
   }
@@ -54,7 +54,7 @@ class SimpTempView extends WatchUi.View {
     // Set the temperature label value
     var temperatureLabel = View.findDrawableById("temperatureValue") as Text?;
     if (temperatureLabel != null) {
-      temperatureLabel.setText(simpTempState.temperature.format("%.1f") + "°");
+      temperatureLabel.setText(_simpTempState.temperature.format("%.1f") + "°");
     }
 
     // Set the minimum temperature label value
@@ -62,7 +62,7 @@ class SimpTempView extends WatchUi.View {
       View.findDrawableById("minimumTemperatureValue") as Text?;
     if (minimumTemperatureLabel != null) {
       minimumTemperatureLabel.setText(
-        "min: " + simpTempState.minimumTemperature.format("%.1f") + "°"
+        "min: " + _simpTempState.minimumTemperature.format("%.1f") + "°"
       );
     }
 
@@ -71,7 +71,7 @@ class SimpTempView extends WatchUi.View {
       View.findDrawableById("maximumTemperatureValue") as Text?;
     if (maximumTemperatureLabel != null) {
       maximumTemperatureLabel.setText(
-        "max: " + simpTempState.maximumTemperature.format("%.1f") + "°"
+        "max: " + _simpTempState.maximumTemperature.format("%.1f") + "°"
       );
     }
   }
@@ -81,7 +81,7 @@ class SimpTempView extends WatchUi.View {
     var temperatureChartDrawable =
       View.findDrawableById("TemperatureChart") as TemperatureChartDrawable?;
     if (temperatureChartDrawable != null) {
-      temperatureChartDrawable.setSimpTempState(simpTempState);
+      temperatureChartDrawable.setSimpTempState(_simpTempState);
     }
   }
 
