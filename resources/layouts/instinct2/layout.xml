@@ -14,9 +14,23 @@
 				</param>
 			</drawable>
 			<label id="clockValue" text="XX:XX" x="45%" y="10" color="Graphics.COLOR_BLACK" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-			<label id="temperatureValue" text="" x="145" y="20" color="Graphics.COLOR_BLACK" font="Gfx.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+			<label id="temperatureValue" text="" x="145" y="20" color="Graphics.COLOR_BLACK" font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
 			<label id="minimumTemperatureValue" text="" x="20" y="22" color="Graphics.COLOR_BLACK" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_LEFT" />
 			<label id="maximumTemperatureValue" text="" x="20" y="42" color="Graphics.COLOR_BLACK" font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_LEFT" />
+			<drawable id="TemperatureChart" class="TemperatureChartDrawable">
+				<!-- DO NOT FORMAT -->
+				<param name="locX">28</param>
+				<param name="locY">76</param>
+				<param name="width">120</param>
+				<param name="height">100</param>
+				<!-- DO NOT FORMAT -->
+				<param name="color">
+					Graphics.COLOR_BLACK
+				</param>
+				<param name="background">
+					Graphics.COLOR_WHITE
+				</param>
+			</drawable>
 		</layout>
 	</layouts>
 </resources>
