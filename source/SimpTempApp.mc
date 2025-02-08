@@ -4,12 +4,20 @@ import Toybox.WatchUi;
 
 (:glance)
 class SimpTempApp extends Application.AppBase {
-  private var _simpTempState as SimpTempState;
+  private var _simpTempState as SimpTempState?;
 
   function initialize() {
     AppBase.initialize();
 
-    self._simpTempState = new SimpTempState();
+    try {
+      self._simpTempState = new SimpTempState();
+    } catch (exception) {
+      WatchUi.switchToView(
+        new SimpTempErrorView(exception.getErrorMessage()),
+        null,
+        WatchUi.SLIDE_IMMEDIATE
+      );
+    }
   }
 
   // onStart() is called on application start up

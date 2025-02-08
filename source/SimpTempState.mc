@@ -21,8 +21,7 @@ class SimpTempState {
       !(Toybox has :SensorHistory) ||
       !(Toybox.SensorHistory has :getTemperatureHistory)
     ) {
-      // TODO: Not supported - display a text message
-      return; // TODO
+      throw new UnsupportedException("Sensor history not supported");
     }
 
     load();
@@ -43,20 +42,19 @@ class SimpTempState {
     var startTime = temperatureIterator.getOldestSampleTime();
     var endTime = temperatureIterator.getNewestSampleTime();
     if (startTime == null || endTime == null) {
-      // Invalid data - skip drawing the chart
+      // Invalid data - skip reloading the temperature data
       return;
     }
 
     var sensorSample = temperatureIterator.next();
     if (sensorSample == null) {
-      // No data - skip drawing the chart
+      // No data - skip reloading the temperature data
       return;
     }
     self._temperature = sensorSample.data;
 
     while (sensorSample != null) {
       var timeDiff = sensorSample.when.subtract(startTime);
-      //   System.print("Time diff: " + timeDiff.value() + "\t");
       var index = Math.floor(timeDiff.value() / 120); // Every 2 minutes
       _temperatureHistory[index] = sensorSample.data;
 
