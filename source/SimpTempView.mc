@@ -54,7 +54,9 @@ class SimpTempView extends WatchUi.View {
     // Set the temperature label value
     var temperatureLabel = View.findDrawableById("temperatureValue") as Text?;
     if (temperatureLabel != null) {
-      temperatureLabel.setText(_simpTempState.temperature.format("%.1f") + "°");
+      temperatureLabel.setText(
+        _simpTempState.getTemperature().format("%.1f") + "°"
+      );
     }
 
     // Set the minimum temperature label value
@@ -62,7 +64,7 @@ class SimpTempView extends WatchUi.View {
       View.findDrawableById("minimumTemperatureValue") as Text?;
     if (minimumTemperatureLabel != null) {
       minimumTemperatureLabel.setText(
-        "min: " + _simpTempState.minimumTemperature.format("%.1f") + "°"
+        "min: " + _simpTempState.getMinimumTemperature().format("%.1f") + "°"
       );
     }
 
@@ -71,7 +73,7 @@ class SimpTempView extends WatchUi.View {
       View.findDrawableById("maximumTemperatureValue") as Text?;
     if (maximumTemperatureLabel != null) {
       maximumTemperatureLabel.setText(
-        "max: " + _simpTempState.maximumTemperature.format("%.1f") + "°"
+        "max: " + _simpTempState.getMaximumTemperature().format("%.1f") + "°"
       );
     }
   }

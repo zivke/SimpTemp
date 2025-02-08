@@ -4,12 +4,12 @@ import Toybox.WatchUi;
 
 (:glance)
 class SimpTempApp extends Application.AppBase {
-  var simpTempState as SimpTempState;
+  private var _simpTempState as SimpTempState;
 
   function initialize() {
     AppBase.initialize();
 
-    simpTempState = new SimpTempState();
+    self._simpTempState = new SimpTempState();
   }
 
   // onStart() is called on application start up
@@ -21,7 +21,7 @@ class SimpTempApp extends Application.AppBase {
   (:glance)
   function getGlanceView() as Array<GlanceView>? {
     return (
-      [new SimpTempGlanceView(simpTempState as SimpTempState)] as
+      [new SimpTempGlanceView(_simpTempState as SimpTempState)] as
       Array<GlanceView>
     );
   }
@@ -29,7 +29,7 @@ class SimpTempApp extends Application.AppBase {
   // Return the initial view of your application here
   function getInitialView() as Array<Views or InputDelegates>? {
     return (
-      [new SimpTempView(simpTempState as SimpTempState)] as
+      [new SimpTempView(_simpTempState as SimpTempState)] as
       Array<Views or InputDelegates>
     );
   }

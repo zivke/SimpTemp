@@ -4,10 +4,10 @@ import Toybox.WatchUi;
 
 (:glance)
 class SimpTempGlanceView extends WatchUi.GlanceView {
-  var simpTempState as SimpTempState?;
+  private var _simpTempState as SimpTempState?;
 
   function initialize(simpTempState as SimpTempState) {
-    self.simpTempState = simpTempState;
+    self._simpTempState = simpTempState;
 
     GlanceView.initialize();
   }
@@ -27,7 +27,9 @@ class SimpTempGlanceView extends WatchUi.GlanceView {
     var temperatureLabel =
       GlanceView.findDrawableById("temperatureValue") as Text?;
     if (temperatureLabel != null) {
-      temperatureLabel.setText(simpTempState.temperature.format("%.1f") + "°");
+      temperatureLabel.setText(
+        _simpTempState.getTemperature().format("%.1f") + "°"
+      );
     }
 
     // Call the parent onUpdate function to redraw the layout

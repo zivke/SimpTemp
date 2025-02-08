@@ -29,8 +29,8 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
   function draw(dc as Dc) {
     // If no valid data, skip drawing the chart
     if (
-      _simpTempState.minimumTemperature == null ||
-      _simpTempState.maximumTemperature == null
+      _simpTempState.getMinimumTemperature() == null ||
+      _simpTempState.getMaximumTemperature() == null
     ) {
       // Missing data - skip drawing the chart
       return;
@@ -43,9 +43,9 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
 
     // Adjust min and max to ensure a visible range
     var chartMinimum =
-      Math.floor(_simpTempState.minimumTemperature).toNumber() - 5;
+      Math.floor(_simpTempState.getMinimumTemperature()).toNumber() - 5;
     var chartMaximum =
-      Math.ceil(_simpTempState.maximumTemperature).toNumber() + 5;
+      Math.ceil(_simpTempState.getMaximumTemperature()).toNumber() + 5;
 
     // Draw chart frame (FOR DEBUGGING PURPOSES)
     // dc.drawRectangle(chartX, chartY, chartWidth, chartHeight);
@@ -55,8 +55,8 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
 
     // Draw chart
     var yScale = chartHeight.toFloat() / (chartMaximum - chartMinimum);
-    for (var i = 0; i < _simpTempState.historySize; i++) {
-      var temp = _simpTempState.temperatureHistory[i];
+    for (var i = 0; i < _simpTempState.getHistorySize(); i++) {
+      var temp = _simpTempState.getTemperatureHistory()[i];
       if (temp != null) {
         var x = chartX + i;
         var y = Math.ceil(
@@ -68,7 +68,7 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
 
     dc.setColor(_foregroundColor, Graphics.COLOR_TRANSPARENT);
     dc.drawText(
-      chartX + (chartWidth / 2),
+      chartX + chartWidth / 2,
       chartY + chartHeight + 8,
       Graphics.FONT_XTINY,
       "Last 4 hours",
@@ -76,9 +76,10 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
     );
 
     // Display min and max temperature values on the chart (triangles)
-    for (var i = 0; i < _simpTempState.historySize; i++) {
+    for (var i = 0; i < _simpTempState.getHistorySize(); i++) {
       if (
-        _simpTempState.temperatureHistory[i] == _simpTempState.minimumTemperature
+        _simpTempState.getTemperatureHistory()[i] ==
+        _simpTempState.getMinimumTemperature()
       ) {
         var x = chartX + i;
         var y = chartY + chartHeight - 7;
@@ -87,9 +88,10 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
       }
     }
 
-    for (var i = 0; i < _simpTempState.historySize; i++) {
+    for (var i = 0; i < _simpTempState.getHistorySize(); i++) {
       if (
-        _simpTempState.temperatureHistory[i] == _simpTempState.maximumTemperature
+        _simpTempState.getTemperatureHistory()[i] ==
+        _simpTempState.getMaximumTemperature()
       ) {
         var x = chartX + i;
         var y = chartY + 6;

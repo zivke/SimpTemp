@@ -6,14 +6,14 @@ import Toybox.Timer;
 
 (:glance)
 class SimpTempState {
-  var historySize as Number = 120; // 120 data points (4 hours, every 2 minutes)
-  var temperatureHistory as Lang.Array<Number or Float or Null> =
-    new Lang.Array<Number or Float or Null>[historySize];
-  var temperature as Number or Float or Null; // Current temperature value
-  var minimumTemperature as Number or Float or Null; // Minimum temperature value
-  var maximumTemperature as Number or Float or Null; // Maximum temperature value
+  private var _historySize as Number = 120; // 120 data points (4 hours, every 2 minutes)
+  private var _temperatureHistory as Lang.Array<Number or Float or Null> =
+    new Lang.Array<Number or Float or Null>[_historySize];
+  private var _temperature as Number or Float or Null; // Current temperature value
+  private var _minimumTemperature as Number or Float or Null; // Minimum temperature value
+  private var _maximumTemperature as Number or Float or Null; // Maximum temperature value
 
-  var timer as Timer.Timer = new Timer.Timer();
+  private var _timer as Timer.Timer = new Timer.Timer();
 
   function initialize() {
     // Check device for SensorHistory compatibility
@@ -27,7 +27,7 @@ class SimpTempState {
 
     load();
 
-    timer.start(method(:load), 60000, true); // Load the temperature data every 2 minutes
+    _timer.start(method(:load), 60000, true); // Load the temperature data every 2 minutes
   }
 
   function load() as Void {
@@ -52,27 +52,47 @@ class SimpTempState {
       // No data - skip drawing the chart
       return;
     }
-    self.temperature = sensorSample.data;
+    self._temperature = sensorSample.data;
 
     while (sensorSample != null) {
       var timeDiff = sensorSample.when.subtract(startTime);
       //   System.print("Time diff: " + timeDiff.value() + "\t");
       var index = Math.floor(timeDiff.value() / 120); // Every 2 minutes
-      temperatureHistory[index] = sensorSample.data;
+      _temperatureHistory[index] = sensorSample.data;
 
       sensorSample = temperatureIterator.next();
     }
 
-    self.minimumTemperature = temperatureIterator.getMin();
-    self.maximumTemperature = temperatureIterator.getMax();
+    self._minimumTemperature = temperatureIterator.getMin();
+    self._maximumTemperature = temperatureIterator.getMax();
 
     WatchUi.requestUpdate();
   }
 
   function reset() as Void {
-    temperatureHistory = new Lang.Array<Number or Float or Null>[historySize];
-    temperature = null;
-    minimumTemperature = null;
-    maximumTemperature = null;
+    _temperatureHistory = new Lang.Array<Number or Float or Null>[_historySize];
+    _temperature = null;
+    _minimumTemperature = null;
+    _maximumTemperature = null;
+  }
+
+  function getTemperature() as Number or Float or Null {
+    return _temperature;
+  }
+
+  function getMinimumTemperature() as Number or Float or Null {
+    return _minimumTemperature;
+  }
+
+  function getMaximumTemperature() as Number or Float or Null {
+    return _maximumTemperature;
+  }
+
+  function getTemperatureHistory() as Lang.Array<Number or Float or Null> {
+    return _temperatureHistory;
+  }
+
+  function getHistorySize() as Number {
+    return _historySize;
   }
 }
