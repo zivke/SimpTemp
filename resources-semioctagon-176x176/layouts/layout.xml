@@ -15,7 +15,7 @@
 			<label id="clockValue" text="XX:XX" x="45%" y="10" color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY"
 				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-			<label id="temperatureValue" text="N/A" x="145" y="20" color="Graphics.COLOR_BLACK"
+			<label id="temperatureValue" text="N/A" x="146" y="18" color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
 			<label id="minimumTemperatureValue" text="min: N/A" x="20" y="22"
 				color="Graphics.COLOR_BLACK"

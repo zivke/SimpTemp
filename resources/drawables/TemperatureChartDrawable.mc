@@ -36,6 +36,16 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
       return;
     }
 
+    // Automatically determine the y location of the drawable if non provided
+    if (locY == 0) {
+      locY = Math.floor(dc.getHeight() * 0.3).toNumber();
+    }
+
+    // Automatically determine the height of the drawable if non provided
+    if (height == 0) {
+      height = Math.floor(dc.getHeight() * 0.5).toNumber();
+    }
+
     var chartWidth = _simpTempState.getHistorySize(); // Chart width
     var chartHeight = (height - 20) as Number; // Chart height
     var chartX = Math.floor((dc.getWidth() - chartWidth) / 2).toNumber(); // X position of the chart
@@ -72,10 +82,10 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
     dc.setColor(_foregroundColor, Graphics.COLOR_TRANSPARENT);
     dc.drawText(
       chartX + chartWidth / 2,
-      chartY + chartHeight + 8,
+      chartY + chartHeight + _simpTempState.getSizeFactor() - 2,
       Graphics.FONT_XTINY,
       totalChartTimeText,
-      Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+      Graphics.TEXT_JUSTIFY_CENTER
     );
 
     // Display min and max temperature values on the chart (triangles)

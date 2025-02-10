@@ -8,9 +8,14 @@ import Toybox.Timer;
 
 (:glance)
 class SimpTempState {
+  // Used for various adjustments depending on the screen resolution
+  private var _sizeFactor as Number = Math.floor(
+    System.getDeviceSettings().screenWidth / 100
+  ).toNumber();
+
   // Determine the best size of the sensor history depending on the screen size and resolution
   private var _historyHours as Number = Math.floor(
-    System.getDeviceSettings().screenWidth / 30 - 1
+    System.getDeviceSettings().screenWidth / 30 - _sizeFactor
   ).toNumber();
   private var _historySize as Number = _historyHours * 30; // 30 data points per hour, every 2 minutes
   private var _temperatureHistory as Lang.Array<Number or Float or Null> =
@@ -78,6 +83,10 @@ class SimpTempState {
     _temperature = null;
     _minimumTemperature = null;
     _maximumTemperature = null;
+  }
+
+  function getSizeFactor() as Number {
+    return _sizeFactor;
   }
 
   function getHistoryHours() as Number {

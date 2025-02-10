@@ -1,3 +1,4 @@
 # TO DO
-- Use device dependent properties(?) to define the temperature history and chart size
+- Sort out the displaying of errors on unsupported devices, especially in the glance view (e.g. Forerunner 55)
+- Support rectangle screen watches
 - Add the change log

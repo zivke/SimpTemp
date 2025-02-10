@@ -1,10 +1,10 @@
 <resources>
 	<layouts>
 		<layout id="GlanceLayout" scope="Glance">
-			<label id="AppNameLabel" text="@Strings.AppName" x="0" y="0"
+			<label id="AppNameLabel" text="@Strings.AppName" x="10%" y="10%"
 				color="Graphics.COLOR_WHITE" font="Graphics.FONT_GLANCE"
 				justification="Graphics.TEXT_JUSTIFY_LEFT" />
-			<label id="temperatureValue" text="N/A" x="0" y="25" color="Graphics.COLOR_WHITE"
+			<label id="temperatureValue" text="N/A" x="10%" y="40%" color="Graphics.COLOR_WHITE"
 				font="Graphics.FONT_GLANCE_NUMBER" justification="Graphics.TEXT_JUSTIFY_LEFT" />
 		</layout>
 		<layout id="MainLayout">
@@ -12,23 +12,24 @@
 				<param name="color">Graphics.COLOR_BLACK</param>
 				<param name="background">Graphics.COLOR_WHITE</param>
 			</drawable>
-			<label id="clockValue" text="XX:XX" x="50%" y="8" color="Graphics.COLOR_BLACK"
+			<label id="temperatureValue" text="N/A" x="50%" y="10%" color="Graphics.COLOR_BLACK"
+				font="Graphics.FONT_SMALL"
+				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+			<label id="minimumTemperatureValue" text="min: N/A" x="30%" y="23%"
+				color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY"
 				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-			<label id="temperatureValue" text="N/A" x="138" y="13" color="Graphics.COLOR_BLACK"
-				font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
-			<label id="minimumTemperatureValue" text="min: N/A" x="20" y="17"
+			<label id="maximumTemperatureValue" text="max: N/A" x="70%" y="23%"
 				color="Graphics.COLOR_BLACK"
-				font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_LEFT" />
-			<label id="maximumTemperatureValue" text="max: N/A" x="20" y="37"
-				color="Graphics.COLOR_BLACK"
-				font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_LEFT" />
+				font="Graphics.FONT_XTINY"
+				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
 			<drawable id="TemperatureChart" class="TemperatureChartDrawable">
-				<param name="locY">65</param>
-				<param name="height">100</param>
 				<param name="color">Graphics.COLOR_BLACK</param>
 				<param name="background">Graphics.COLOR_WHITE</param>
 			</drawable>
+			<label id="clockValue" text="XX:XX" x="50%" y="90%" color="Graphics.COLOR_BLACK"
+				font="Graphics.FONT_TINY"
+				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
 		</layout>
 	</layouts>
 </resources>
