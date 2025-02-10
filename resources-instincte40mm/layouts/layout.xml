@@ -12,20 +12,20 @@
 				<param name="color">Graphics.COLOR_BLACK</param>
 				<param name="background">Graphics.COLOR_WHITE</param>
 			</drawable>
-			<label id="clockValue" text="XX:XX" x="45%" y="10" color="Graphics.COLOR_BLACK"
+			<label id="clockValue" text="XX:XX" x="50%" y="5" color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY"
 				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-			<label id="temperatureValue" text="N/A" x="145" y="20" color="Graphics.COLOR_BLACK"
+			<label id="temperatureValue" text="N/A" x="137" y="17" color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
-			<label id="minimumTemperatureValue" text="min: N/A" x="20" y="22"
+			<label id="minimumTemperatureValue" text="min: N/A" x="20" y="14"
 				color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_LEFT" />
-			<label id="maximumTemperatureValue" text="max: N/A" x="20" y="42"
+			<label id="maximumTemperatureValue" text="max: N/A" x="20" y="34"
 				color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_LEFT" />
 			<drawable id="TemperatureChart" class="TemperatureChartDrawable">
-				<param name="locY">76</param>
-				<param name="height">100</param>
+				<param name="locY">65</param>
+				<param name="height">90</param>
 				<param name="color">Graphics.COLOR_BLACK</param>
 				<param name="background">Graphics.COLOR_WHITE</param>
 			</drawable>

@@ -36,9 +36,9 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
       return;
     }
 
-    var chartWidth = width as Number; // Chart width
+    var chartWidth = _simpTempState.getHistorySize(); // Chart width
     var chartHeight = (height - 20) as Number; // Chart height
-    var chartX = locX as Number; // X position of the chart
+    var chartX = Math.floor((dc.getWidth() - chartWidth) / 2).toNumber(); // X position of the chart
     var chartY = locY as Number; // Y position of the chart
 
     // Adjust min and max to ensure a visible range
@@ -66,12 +66,15 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
       }
     }
 
+    var totalChartTimeText =
+      "Last " + _simpTempState.getHistoryHours() + " hours";
+
     dc.setColor(_foregroundColor, Graphics.COLOR_TRANSPARENT);
     dc.drawText(
       chartX + chartWidth / 2,
       chartY + chartHeight + 8,
       Graphics.FONT_XTINY,
-      "Last 4 hours",
+      totalChartTimeText,
       Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
     );
 

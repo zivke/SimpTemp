@@ -24,9 +24,7 @@
 				color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY" justification="Graphics.TEXT_JUSTIFY_LEFT" />
 			<drawable id="TemperatureChart" class="TemperatureChartDrawable">
-				<param name="locX">18</param>
 				<param name="locY">65</param>
-				<param name="width">120</param>
 				<param name="height">90</param>
 				<param name="color">Graphics.COLOR_BLACK</param>
 				<param name="background">Graphics.COLOR_WHITE</param>
