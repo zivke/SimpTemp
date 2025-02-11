@@ -8,6 +8,10 @@ import Toybox.Timer;
 
 (:glance)
 class SimpTempState {
+  // Fetch the system units
+  private var _systemUnits as System.UnitsSystem =
+    System.getDeviceSettings().temperatureUnits;
+
   // Used for various adjustments depending on the screen resolution
   private var _sizeFactor as Number = Math.floor(
     System.getDeviceSettings().screenWidth / 100
@@ -62,27 +66,45 @@ class SimpTempState {
       // No data - skip reloading the temperature data
       return;
     }
-    self._temperature = sensorSample.data;
+    self._temperature = convertTemperature(sensorSample.data);
 
     while (sensorSample != null) {
       var timeDiff = sensorSample.when.subtract(startTime);
       var index = Math.floor(timeDiff.value() / 120); // Every 2 minutes
-      _temperatureHistory[index] = sensorSample.data;
+      _temperatureHistory[index] = convertTemperature(sensorSample.data);
 
       sensorSample = temperatureIterator.next();
     }
 
-    self._minimumTemperature = temperatureIterator.getMin();
-    self._maximumTemperature = temperatureIterator.getMax();
+    self._minimumTemperature = convertTemperature(temperatureIterator.getMin());
+    self._maximumTemperature = convertTemperature(temperatureIterator.getMax());
 
     WatchUi.requestUpdate();
   }
 
-  function reset() as Void {
+  private function reset() as Void {
     _temperatureHistory = new Lang.Array<Number or Float or Null>[_historySize];
     _temperature = null;
     _minimumTemperature = null;
     _maximumTemperature = null;
+  }
+
+  private function convertTemperature(
+    temperature as Number or Float or Null
+  ) as Number or Float or Null {
+    if (temperature == null) {
+      return null;
+    }
+
+    if (_systemUnits == System.UNIT_STATUTE) {
+      return temperature * 1.8 + 32;
+    }
+
+    return temperature;
+  }
+
+  function getSystemUnits() as System.UnitsSystem {
+    return _systemUnits;
   }
 
   function getSizeFactor() as Number {

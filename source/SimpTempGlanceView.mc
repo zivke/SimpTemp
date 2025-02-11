@@ -27,8 +27,10 @@ class SimpTempGlanceView extends WatchUi.GlanceView {
     var temperatureLabel =
       GlanceView.findDrawableById("temperatureValue") as Text?;
     if (temperatureLabel != null) {
+      var temperatureUnitsText =
+        _simpTempState.getSystemUnits() == System.UNIT_STATUTE ? "°F" : "°C";
       temperatureLabel.setText(
-        _simpTempState.getTemperature().format("%.1f") + "°"
+        _simpTempState.getTemperature().format("%.1f") + temperatureUnitsText
       );
     }
 
