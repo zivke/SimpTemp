@@ -1,4 +1,7 @@
 <resources>
+	<drawable-list id="backdrop" background="Graphics.COLOR_TRANSPARENT">
+		<shape type="circle" x="138" y="25" radius="30" color="Graphics.COLOR_BLACK" />
+	</drawable-list>
 	<layouts>
 		<layout id="GlanceLayout" scope="Glance">
 			<label id="AppNameLabel" text="@Strings.AppName" x="0" y="0"
@@ -12,10 +15,11 @@
 				<param name="color">Graphics.COLOR_BLACK</param>
 				<param name="background">Graphics.COLOR_WHITE</param>
 			</drawable>
+			<drawable id="backdrop" />
 			<label id="clockValue" text="XX:XX" x="50%" y="8" color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY"
 				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-			<label id="temperatureValue" text="N/A" x="138" y="13" color="Graphics.COLOR_BLACK"
+			<label id="temperatureValue" text="N/A" x="138" y="13" color="Graphics.COLOR_WHITE"
 				font="Graphics.FONT_SMALL" justification="Graphics.TEXT_JUSTIFY_CENTER" />
 			<label id="minimumTemperatureValue" text="min: N/A" x="20" y="17"
 				color="Graphics.COLOR_BLACK"
