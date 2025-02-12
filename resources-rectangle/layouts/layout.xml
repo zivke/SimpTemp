@@ -1,0 +1,35 @@
+<resources>
+	<layouts>
+		<layout id="GlanceLayout" scope="Glance">
+			<label id="AppNameLabel" text="@Strings.AppName" x="5%" y="10%"
+				color="Graphics.COLOR_WHITE" font="Graphics.FONT_GLANCE"
+				justification="Graphics.TEXT_JUSTIFY_LEFT" />
+			<label id="temperatureValue" text="N/A" x="5%" y="40%" color="Graphics.COLOR_WHITE"
+				font="Graphics.FONT_GLANCE_NUMBER" justification="Graphics.TEXT_JUSTIFY_LEFT" />
+		</layout>
+		<layout id="MainLayout">
+			<drawable id="MainBackground" class="MainBackgroundDrawable">
+				<param name="color">Graphics.COLOR_BLACK</param>
+				<param name="background">Graphics.COLOR_WHITE</param>
+			</drawable>
+			<label id="temperatureValue" text="N/A" x="50%" y="10%" color="Graphics.COLOR_BLACK"
+				font="Graphics.FONT_SMALL"
+				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+			<label id="minimumTemperatureValue" text="min: N/A" x="25%" y="23%"
+				color="Graphics.COLOR_BLACK"
+				font="Graphics.FONT_XTINY"
+				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+			<label id="maximumTemperatureValue" text="max: N/A" x="75%" y="23%"
+				color="Graphics.COLOR_BLACK"
+				font="Graphics.FONT_XTINY"
+				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+			<drawable id="TemperatureChart" class="TemperatureChartDrawable">
+				<param name="color">Graphics.COLOR_BLACK</param>
+				<param name="background">Graphics.COLOR_WHITE</param>
+			</drawable>
+			<label id="clockValue" text="XX:XX" x="50%" y="93%" color="Graphics.COLOR_BLACK"
+				font="Graphics.FONT_TINY"
+				justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+		</layout>
+	</layouts>
+</resources>
