@@ -95,27 +95,45 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
       Graphics.TEXT_JUSTIFY_CENTER
     );
 
-    // Display min and max temperature values on the chart (triangles)
+    // Draw the min and max temperature triangles and dashed lines
     for (var i = 0; i < _simpTempState.getHistorySize(); i++) {
-      if (
-        _simpTempState.getTemperatureHistory()[i] ==
-        _simpTempState.getMinimumTemperature()
-      ) {
+      var temp = _simpTempState.getTemperatureHistory()[i];
+      if (temp != null && temp == _simpTempState.getMinimumTemperature()) {
         var x = chartX + i;
         var y = chartY + chartHeight - 7;
         drawMinTriangle(dc, x, y);
+
+        var dashedLineY = Math.ceil(
+          chartY + chartHeight - (temp - chartMinimum) * yScale
+        ).toNumber();
+        drawHorizontalDashedLine(
+          dc,
+          chartX,
+          chartX + chartWidth,
+          dashedLineY + 1,
+          Graphics.COLOR_WHITE
+        );
         break;
       }
     }
 
     for (var i = 0; i < _simpTempState.getHistorySize(); i++) {
-      if (
-        _simpTempState.getTemperatureHistory()[i] ==
-        _simpTempState.getMaximumTemperature()
-      ) {
+      var temp = _simpTempState.getTemperatureHistory()[i];
+      if (temp != null && temp == _simpTempState.getMaximumTemperature()) {
         var x = chartX + i;
         var y = chartY + 6;
         drawMaxTriangle(dc, x, y);
+
+        var dashedLineY = Math.ceil(
+          chartY + chartHeight - (temp - chartMinimum) * yScale
+        ).toNumber();
+        drawHorizontalDashedLine(
+          dc,
+          chartX,
+          chartX + chartWidth,
+          dashedLineY - 1,
+          Graphics.COLOR_BLACK
+        );
         break;
       }
     }
@@ -161,5 +179,23 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
     // Draw the triangle
     dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
     dc.fillPolygon(points);
+  }
+
+  private function drawHorizontalDashedLine(
+    dc as Dc,
+    startX as Number,
+    endX as Number,
+    y as Number,
+    color as Number
+  ) {
+    var dashLength = 3;
+
+    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+    for (var i = startX; i < endX; i += 2 * dashLength) {
+      var dashStartX = i;
+      var dashEndX = i + dashLength;
+      dashEndX = dashEndX > endX ? endX : dashEndX;
+      dc.drawLine(dashStartX, y, dashEndX, y);
+    }
   }
 }
