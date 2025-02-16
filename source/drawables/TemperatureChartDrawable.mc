@@ -115,7 +115,7 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
   }
 
   // Draw the triangle to indicate the minimum temperature value
-  function drawMinTriangle(
+  private function drawMinTriangle(
     dc as Graphics.Dc,
     pointX as Number,
     pointY as Number
@@ -139,7 +139,7 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
   }
 
   // Draw the triangle to indicate the minimum temperature value
-  function drawMaxTriangle(
+  private function drawMaxTriangle(
     dc as Graphics.Dc,
     pointX as Number,
     pointY as Number

@@ -35,7 +35,7 @@ class SimpTempView extends WatchUi.View {
     View.onUpdate(dc);
   }
 
-  function drawCurrentTime(dc as Graphics.Dc) {
+  private function drawCurrentTime(dc as Graphics.Dc) {
     var currentTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var timeFormat = "$1$:$2$"; // Time format (HH:MM)
     var clockLabel = View.findDrawableById("clockValue") as Text?;
@@ -50,7 +50,7 @@ class SimpTempView extends WatchUi.View {
   }
 
   // Draw the temperature values
-  function drawTemperatureValues(dc as Graphics.Dc) {
+  private function drawTemperatureValues(dc as Graphics.Dc) {
     // Set the temperature label value
     var temperatureLabel = View.findDrawableById("temperatureValue") as Text?;
     if (temperatureLabel != null) {
@@ -79,7 +79,7 @@ class SimpTempView extends WatchUi.View {
   }
 
   // Draw the temperature chart
-  function drawTemperatureChart(dc as Graphics.Dc) {
+  private function drawTemperatureChart(dc as Graphics.Dc) {
     var temperatureChartDrawable =
       View.findDrawableById("TemperatureChart") as TemperatureChartDrawable?;
     if (temperatureChartDrawable != null) {
