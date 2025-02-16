@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-02-16
+
+### Added
+
+- Add the hour marks to the bottom of the temperature chart
+
 ## [1.0.0] - 2025-02-12
 
 ### Added
@@ -39,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic functionality
 - Support for Instinct 2
 
-[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/zivke/SimpTemp/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/zivke/SimpTemp/compare/v0.0.1...v1.0.0
 [0.0.1]: https://github.com/zivke/SimpTemp/releases/tag/v0.0.1
