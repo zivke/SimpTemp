@@ -188,14 +188,9 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
     y as Number,
     color as Number
   ) {
-    var dashLength = 3;
-
     dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-    for (var i = startX; i < endX; i += 2 * dashLength) {
-      var dashStartX = i;
-      var dashEndX = i + dashLength;
-      dashEndX = dashEndX > endX ? endX : dashEndX;
-      dc.drawLine(dashStartX, y, dashEndX, y);
+    for (var i = startX; i < endX; i += 2) {
+      dc.drawPoint(i, y);
     }
   }
 }
