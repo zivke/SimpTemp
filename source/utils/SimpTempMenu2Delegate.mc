@@ -10,7 +10,15 @@ class SimpTempMenu2Delegate extends WatchUi.Menu2InputDelegate {
 
   function onSelect(item as MenuItem) {
     if (item instanceof ToggleMenuItem && item.getId() == :ShowMinMaxLines) {
-      Application.Properties.setValue("ShowMinMaxLines", item.isEnabled());
+      try {
+        Application.Properties.setValue("ShowMinMaxLines", item.isEnabled());
+      } catch (exception) {
+        WatchUi.switchToView(
+          new SimpTempErrorView("Error:\n" + exception.getErrorMessage()),
+          null,
+          WatchUi.SLIDE_IMMEDIATE
+        );
+      }
     }
   }
 }
