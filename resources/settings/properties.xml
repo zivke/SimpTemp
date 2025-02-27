@@ -1,0 +1,3 @@
+<properties>
+    <property id="ShowMinMaxLines" type="boolean">false</property>
+</properties>

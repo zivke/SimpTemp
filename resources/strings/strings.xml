@@ -1,3 +1,5 @@
 <strings>
     <string id="AppName" scope="glance">SimpTemp</string>
+
+    <string id="ShowMinMaxLinesLabel">Show min/max lines</string>
 </strings>

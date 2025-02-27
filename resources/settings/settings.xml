@@ -1,0 +1,5 @@
+<settings>
+    <setting propertyKey="@Properties.ShowMinMaxLines" title="@Strings.ShowMinMaxLinesLabel">
+        <settingConfig type="boolean" required="true" />
+    </setting>
+</settings>
