@@ -8,14 +8,14 @@ class SimpTempDelegate extends WatchUi.BehaviorDelegate {
 
   function onMenu() as Boolean {
     var menu = new Rez.Menus.OptionsMenu() as Menu2;
-    var showMinMax =
+    var showMinMaxLines =
       Application.Properties.getValue("ShowMinMaxLines") as Boolean?;
-    if (showMinMax != null) {
+    if (showMinMaxLines != null) {
       var index = menu.findItemById(:ShowMinMaxLines);
       if (index >= 0) {
         var item = menu.getItem(index);
         if (item != null && item instanceof ToggleMenuItem) {
-          (item as ToggleMenuItem).setEnabled(showMinMax);
+          (item as ToggleMenuItem).setEnabled(showMinMaxLines);
         }
       }
     }

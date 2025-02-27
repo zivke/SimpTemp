@@ -46,6 +46,9 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
       height = Math.floor(dc.getHeight() * 0.5).toNumber();
     }
 
+    var showMinMaxLines =
+      Application.Properties.getValue("ShowMinMaxLines") as Boolean?;
+
     var chartWidth = _simpTempState.getHistorySize(); // Chart width
     var chartHeight = (height - 20) as Number; // Chart height
     var chartX = Math.floor((dc.getWidth() - chartWidth) / 2).toNumber(); // X position of the chart
@@ -103,16 +106,18 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
         var y = chartY + chartHeight - 7;
         drawMinTriangle(dc, x, y);
 
-        var dashedLineY = Math.ceil(
-          chartY + chartHeight - (temp - chartMinimum) * yScale
-        ).toNumber();
-        drawHorizontalDashedLine(
-          dc,
-          chartX,
-          chartX + chartWidth,
-          dashedLineY + 1,
-          Graphics.COLOR_WHITE
-        );
+        if (showMinMaxLines) {
+          var dottedLineY = Math.ceil(
+            chartY + chartHeight - (temp - chartMinimum) * yScale
+          ).toNumber();
+          drawHorizontalDottedLine(
+            dc,
+            chartX,
+            chartX + chartWidth,
+            dottedLineY + 1,
+            Graphics.COLOR_WHITE
+          );
+        }
         break;
       }
     }
@@ -124,16 +129,18 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
         var y = chartY + 6;
         drawMaxTriangle(dc, x, y);
 
-        var dashedLineY = Math.ceil(
-          chartY + chartHeight - (temp - chartMinimum) * yScale
-        ).toNumber();
-        drawHorizontalDashedLine(
-          dc,
-          chartX,
-          chartX + chartWidth,
-          dashedLineY - 1,
-          Graphics.COLOR_BLACK
-        );
+        if (showMinMaxLines) {
+          var dottedLineY = Math.ceil(
+            chartY + chartHeight - (temp - chartMinimum) * yScale
+          ).toNumber();
+          drawHorizontalDottedLine(
+            dc,
+            chartX,
+            chartX + chartWidth,
+            dottedLineY - 1,
+            Graphics.COLOR_BLACK
+          );
+        }
         break;
       }
     }
@@ -181,7 +188,7 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
     dc.fillPolygon(points);
   }
 
-  private function drawHorizontalDashedLine(
+  private function drawHorizontalDottedLine(
     dc as Dc,
     startX as Number,
     endX as Number,
