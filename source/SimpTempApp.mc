@@ -27,19 +27,15 @@ class SimpTempApp extends Application.AppBase {
   function onStop(state as Dictionary?) as Void {}
 
   (:glance)
-  function getGlanceView() as Array<GlanceView>? {
-    return (
-      [new SimpTempGlanceView(_simpTempState as SimpTempState)] as
-      Array<GlanceView>
-    );
+  function getGlanceView() as [GlanceView] or
+    [GlanceView, GlanceViewDelegate] or
+    Null {
+    return [new SimpTempGlanceView(_simpTempState as SimpTempState)];
   }
 
   // Return the initial view of your application here
-  function getInitialView() as Array<Views or InputDelegates>? {
-    return (
-      [new SimpTempView(_simpTempState as SimpTempState)] as
-      Array<Views or InputDelegates>
-    );
+  function getInitialView() as [Views] or [Views, InputDelegates] {
+    return [new SimpTempView(_simpTempState as SimpTempState)];
   }
 }
 
