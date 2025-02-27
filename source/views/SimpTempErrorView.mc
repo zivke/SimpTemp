@@ -23,7 +23,7 @@ class SimpTempErrorView extends WatchUi.View {
       :text => _text,
       :backgroundColor => Graphics.COLOR_BLACK,
       :color => Graphics.COLOR_WHITE,
-      :font => Graphics.FONT_MEDIUM,
+      :font => Graphics.FONT_TINY,
       :justification => Graphics.TEXT_JUSTIFY_CENTER |
       Graphics.TEXT_JUSTIFY_VCENTER,
       :locX => WatchUi.LAYOUT_HALIGN_CENTER,
