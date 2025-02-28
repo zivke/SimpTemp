@@ -61,6 +61,12 @@ class SimpTempState {
       return;
     }
 
+    // It has happened sometimes that the time difference between the first and last sample
+    // is more than the expected history size. In this case, we need to adjust the index.
+    var totalTimeDiff = endTime.subtract(startTime);
+    var index_correction =
+      _historySize - 1 - Math.floor(totalTimeDiff.value() / 120).toNumber();
+
     var sensorSample = temperatureIterator.next();
     if (sensorSample == null) {
       // No data - skip reloading the temperature data
@@ -70,8 +76,15 @@ class SimpTempState {
 
     while (sensorSample != null) {
       var timeDiff = sensorSample.when.subtract(startTime);
-      var index = Math.floor(timeDiff.value() / 120); // Every 2 minutes
-      _temperatureHistory[index] = convertTemperature(sensorSample.data);
+      var index =
+        Math.floor(timeDiff.value() / 120).toNumber() + index_correction; // Every 2 minutes
+      if (index >= 0 && index < _historySize) {
+        _temperatureHistory[index] = convertTemperature(sensorSample.data);
+      } else {
+        System.println(
+          "Error: Temperature reading time out of range (index: " + index + ")"
+        );
+      }
 
       sensorSample = temperatureIterator.next();
     }
