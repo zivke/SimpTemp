@@ -5,10 +5,10 @@
 	</drawable-list>
 	<layouts>
 		<layout id="GlanceLayout" scope="Glance">
-			<label id="AppNameLabel" text="@Strings.AppName" x="5%" y="10%"
+			<label id="AppNameLabel" text="@Strings.AppName" x="0" y="10%"
 				color="Graphics.COLOR_WHITE" font="Graphics.FONT_GLANCE"
 				justification="Graphics.TEXT_JUSTIFY_LEFT" />
-			<label id="temperatureValue" text="N/A" x="5%" y="40%" color="Graphics.COLOR_WHITE"
+			<label id="temperatureValue" text="N/A" x="0" y="50%" color="Graphics.COLOR_WHITE"
 				font="Graphics.FONT_GLANCE_NUMBER" justification="Graphics.TEXT_JUSTIFY_LEFT" />
 		</layout>
 		<layout id="MainLayout">
