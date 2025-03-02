@@ -24,16 +24,22 @@ class SimpTempGlanceView extends WatchUi.GlanceView {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
-    var temperatureLabel =
-      GlanceView.findDrawableById("temperatureValue") as Text?;
-    if (temperatureLabel != null) {
-      var temperatureUnitsText =
-        _simpTempState.getSystemUnits() == System.UNIT_STATUTE ? "°F" : "°C";
+    if (_simpTempState != null) {
       var temperature = _simpTempState.getTemperature();
       if (temperature != null) {
-        temperatureLabel.setText(
-          temperature.format("%.1f") + temperatureUnitsText
-        );
+        var glanceLabel = GlanceView.findDrawableById("GlanceLabel") as Text?;
+        if (glanceLabel != null) {
+          var temperatureUnitsText =
+            _simpTempState.getSystemUnits() == System.UNIT_STATUTE
+              ? "°F"
+              : "°C";
+          glanceLabel.setText(
+            loadResource(Rez.Strings.AppName) +
+              "\n" +
+              temperature.format("%.1f") +
+              temperatureUnitsText
+          );
+        }
       }
     }
 
