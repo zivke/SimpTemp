@@ -7,6 +7,58 @@ import Toybox.Time;
 import Toybox.Timer;
 
 (:glance)
+class Status {
+  enum Code {
+    UNKNOWN_ERROR = -4,
+    NO_MIN_MAX_TEMPERATURE = -3,
+    NO_CURRENT_TEMPERATURE = -2,
+    INVALID_DATA = -1,
+    INITIALIZING = 0,
+    LOADING = 1,
+    DONE = 2,
+  }
+
+  private var _code as Code = INITIALIZING;
+
+  function getCode() as Code {
+    return _code;
+  }
+
+  function setCode(code as Code) {
+    self._code = code;
+    WatchUi.requestUpdate();
+  }
+
+  function hasError() {
+    return _code < 0;
+  }
+
+  function getMessage() as String {
+    switch (self._code) {
+      case NO_MIN_MAX_TEMPERATURE:
+        return "No minimum or maximum temperature";
+      case NO_CURRENT_TEMPERATURE:
+        return "No current temperature";
+      case INVALID_DATA:
+        return "Invalid data";
+      case INITIALIZING:
+        return "Initializing...";
+      case LOADING:
+        return "Loading...";
+      case DONE:
+        return "Done";
+      default: {
+        if (_code < 0) {
+          return "Unknown error";
+        } else {
+          return "Status unknown";
+        }
+      }
+    }
+  }
+}
+
+(:glance)
 class SimpTempState {
   // Fetch the system units
   private var _systemUnits as System.UnitsSystem =
@@ -28,7 +80,13 @@ class SimpTempState {
   private var _minimumTemperature as Number or Float or Null; // Minimum temperature value
   private var _maximumTemperature as Number or Float or Null; // Maximum temperature value
 
-  private var _timer as Timer.Timer = new Timer.Timer();
+  private var _timer as Timer.Timer;
+
+  private var _status as Status;
+
+  // Time to wait before retrying to load the temperature data
+  private var _retryDelay as Number = 2000;
+  private var _retryCount as Number = 0;
 
   function initialize() {
     // Check device for SensorHistory compatibility
@@ -39,12 +97,34 @@ class SimpTempState {
       throw new UnsupportedException("Sensor history not supported");
     }
 
-    load();
+    self._status = new Status();
+    _timer = new Timer.Timer();
 
-    _timer.start(method(:load), 60000, true); // Load the temperature data every minute
+    load();
   }
 
   function load() as Void {
+    if (_status.getCode() == Status.INITIALIZING) {
+      _status.setCode(Status.LOADING);
+    } else if (_status.getCode() == Status.LOADING) {
+      return;
+    } else if (_status.getCode() == Status.DONE) {
+      _retryCount = 0;
+      _status.setCode(Status.LOADING);
+    } else {
+      _retryCount += 1;
+      if (_retryCount >= 4) {
+        _timer.stop();
+        WatchUi.switchToView(
+          new SimpTempInfoView("Error: " + _status.getMessage()),
+          null,
+          WatchUi.SLIDE_IMMEDIATE
+        );
+        return;
+      }
+    }
+
+    System.println("load()");
     reset();
 
     // Get the temperature history iterator
@@ -57,7 +137,9 @@ class SimpTempState {
     var startTime = temperatureIterator.getOldestSampleTime();
     var endTime = temperatureIterator.getNewestSampleTime();
     if (startTime == null || endTime == null) {
-      // Invalid data - skip reloading the temperature data
+      _status.setCode(Status.INVALID_DATA);
+      _timer.stop();
+      _timer.start(method(:load), _retryDelay, true); // Try to reload every 5 seconds
       return;
     }
 
@@ -68,22 +150,28 @@ class SimpTempState {
       _historySize - 1 - Math.floor(totalTimeDiff.value() / 120).toNumber();
 
     var sensorSample = temperatureIterator.next();
-    if (sensorSample == null) {
-      // No data - skip reloading the temperature data
+    if (sensorSample == null || sensorSample.data == null) {
+      _status.setCode(Status.NO_CURRENT_TEMPERATURE);
+      _timer.stop();
+      _timer.start(method(:load), _retryDelay, true); // Try to reload every 5 seconds
       return;
     }
     self._temperature = convertTemperature(sensorSample.data);
 
     while (sensorSample != null) {
-      var timeDiff = sensorSample.when.subtract(startTime);
-      var index =
-        Math.floor(timeDiff.value() / 120).toNumber() + index_correction; // Every 2 minutes
-      if (index >= 0 && index < _historySize) {
-        _temperatureHistory[index] = convertTemperature(sensorSample.data);
-      } else {
-        System.println(
-          "Error: Temperature reading time out of range (index: " + index + ")"
-        );
+      if (sensorSample.data != null) {
+        var timeDiff = sensorSample.when.subtract(startTime);
+        var index =
+          Math.floor(timeDiff.value() / 120).toNumber() + index_correction; // Every 2 minutes
+        if (index >= 0 && index < _historySize) {
+          _temperatureHistory[index] = convertTemperature(sensorSample.data);
+        } else {
+          System.println(
+            "Error: Temperature reading time out of range (index: " +
+              index +
+              ")"
+          );
+        }
       }
 
       sensorSample = temperatureIterator.next();
@@ -92,7 +180,18 @@ class SimpTempState {
     self._minimumTemperature = convertTemperature(temperatureIterator.getMin());
     self._maximumTemperature = convertTemperature(temperatureIterator.getMax());
 
-    WatchUi.requestUpdate();
+    if (_minimumTemperature == null || _maximumTemperature == null) {
+      _status.setCode(Status.INVALID_DATA);
+      _timer.stop();
+      _timer.start(method(:load), _retryDelay, true); // Try to reload every 5 seconds
+      return;
+    }
+
+    _status.setCode(Status.DONE);
+    _timer.stop();
+    _timer.start(method(:load), 60000, true); // Load the temperature data every minute
+
+    // WatchUi.requestUpdate(); gets called by _status.setCode()
   }
 
   private function reset() as Void {
@@ -114,6 +213,10 @@ class SimpTempState {
     }
 
     return temperature;
+  }
+
+  function destroy() as Void {
+    _timer.stop();
   }
 
   function getSystemUnits() as System.UnitsSystem {
@@ -146,5 +249,9 @@ class SimpTempState {
 
   function getMaximumTemperature() as Number or Float or Null {
     return _maximumTemperature;
+  }
+
+  function getStatus() as Status {
+    return _status;
   }
 }

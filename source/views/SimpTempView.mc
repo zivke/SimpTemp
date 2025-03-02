@@ -26,13 +26,39 @@ class SimpTempView extends WatchUi.View {
   function onShow() as Void {}
 
   // Update the view
-  function onUpdate(dc as Dc) as Void {
-    drawCurrentTime(dc);
-    drawTemperatureValues(dc);
-    drawTemperatureChart(dc);
+  function onUpdate(dc as Graphics.Dc) as Void {
+    if (_simpTempState.getStatus().getCode() != Status.DONE) {
+      drawInfoMessage(
+        dc,
+        "Waiting: " + _simpTempState.getStatus().getMessage()
+      );
+    } else {
+      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+      dc.clear();
+
+      drawCurrentTime(dc);
+      drawTemperatureValues(dc);
+      drawTemperatureChart(dc);
+    }
 
     // Call the parent onUpdate function to redraw the layout
     View.onUpdate(dc);
+  }
+
+  private function drawInfoMessage(dc as Graphics.Dc, message as String?) {
+    var infoMessage = new WatchUi.TextArea({
+      :text => message != null ? message : "Unknown error",
+      :backgroundColor => Graphics.COLOR_BLACK,
+      :color => Graphics.COLOR_WHITE,
+      :font => Graphics.FONT_TINY,
+      :justification => Graphics.TEXT_JUSTIFY_CENTER |
+      Graphics.TEXT_JUSTIFY_VCENTER,
+      :locX => WatchUi.LAYOUT_HALIGN_CENTER,
+      :locY => WatchUi.LAYOUT_VALIGN_CENTER,
+      :width => dc.getWidth() * 0.8,
+      :height => dc.getHeight() * 0.8,
+    });
+    infoMessage.draw(dc);
   }
 
   private function drawCurrentTime(dc as Graphics.Dc) {

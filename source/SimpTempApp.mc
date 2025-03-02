@@ -24,7 +24,11 @@ class SimpTempApp extends Application.AppBase {
   function onStart(state as Dictionary?) as Void {}
 
   // onStop() is called when your application is exiting
-  function onStop(state as Dictionary?) as Void {}
+  function onStop(state as Dictionary?) as Void {
+    if (_simpTempState != null) {
+      _simpTempState.destroy();
+    }
+  }
 
   (:glance)
   function getGlanceView() as [GlanceView] or
