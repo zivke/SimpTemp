@@ -41,7 +41,7 @@ class SimpTempState {
 
     load();
 
-    _timer.start(method(:load), 60000, true); // Load the temperature data every 2 minutes
+    _timer.start(method(:load), 60000, true); // Load the temperature data every minute
   }
 
   function load() as Void {
