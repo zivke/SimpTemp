@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class SimpTempErrorView extends WatchUi.View {
+class SimpTempInfoView extends WatchUi.View {
   private var _text as String;
 
   function initialize(message as String?) {
@@ -19,7 +19,7 @@ class SimpTempErrorView extends WatchUi.View {
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
     dc.clear();
 
-    var errorString = new WatchUi.TextArea({
+    var infoMessage = new WatchUi.TextArea({
       :text => _text,
       :backgroundColor => Graphics.COLOR_BLACK,
       :color => Graphics.COLOR_WHITE,
@@ -31,7 +31,7 @@ class SimpTempErrorView extends WatchUi.View {
       :width => dc.getWidth() * 0.8,
       :height => dc.getHeight() * 0.8,
     });
-    errorString.draw(dc);
+    infoMessage.draw(dc);
   }
 
   function onHide() as Void {}

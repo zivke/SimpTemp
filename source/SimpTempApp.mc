@@ -13,7 +13,7 @@ class SimpTempApp extends Application.AppBase {
       self._simpTempState = new SimpTempState();
     } catch (exception) {
       WatchUi.switchToView(
-        new SimpTempErrorView("Error:\n" + exception.getErrorMessage()),
+        new SimpTempInfoView("Error:\n" + exception.getErrorMessage()),
         null,
         WatchUi.SLIDE_IMMEDIATE
       );
