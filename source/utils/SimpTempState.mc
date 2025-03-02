@@ -124,7 +124,6 @@ class SimpTempState {
       }
     }
 
-    System.println("load()");
     reset();
 
     // Get the temperature history iterator
