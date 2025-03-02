@@ -1,5 +1,5 @@
 <resources>
-	<drawable-list id="backdrop" background="Graphics.COLOR_TRANSPARENT">
+	<drawable-list id="backdrop" background="Graphics.COLOR_WHITE">
 		<shape type="circle" x="138" y="25" radius="30" color="Graphics.COLOR_BLACK" />
 	</drawable-list>
 	<layouts>
@@ -11,10 +11,6 @@
 				font="Graphics.FONT_GLANCE_NUMBER" justification="Graphics.TEXT_JUSTIFY_LEFT" />
 		</layout>
 		<layout id="MainLayout">
-			<drawable id="MainBackground" class="MainBackgroundDrawable">
-				<param name="color">Graphics.COLOR_BLACK</param>
-				<param name="background">Graphics.COLOR_WHITE</param>
-			</drawable>
 			<drawable id="backdrop" />
 			<label id="clockValue" text="XX:XX" x="50%" y="8" color="Graphics.COLOR_BLACK"
 				font="Graphics.FONT_XTINY"
