@@ -43,7 +43,7 @@ class SimpTempView extends WatchUi.View {
   }
 
   private function drawCurrentTime(dc as Graphics.Dc) {
-    var currentTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    var currentTime = Time.Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var timeFormat = "$1$:$2$"; // Time format (HH:MM)
     var clockLabel = View.findDrawableById("clockValue") as Text?;
     if (clockLabel != null) {

@@ -143,7 +143,9 @@ class SimpTempState {
 
     // Get the temperature history iterator
     var temperatureIterator = Toybox.SensorHistory.getTemperatureHistory({
-      :period => new Time.Duration(Gregorian.SECONDS_PER_HOUR * _historyHours),
+      :period => new Time.Duration(
+        Time.Gregorian.SECONDS_PER_HOUR * _historyHours
+      ),
       :order => SensorHistory.ORDER_NEWEST_FIRST,
     });
 
