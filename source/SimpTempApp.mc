@@ -31,7 +31,14 @@ class SimpTempApp extends Application.AppBase {
 
   // Return the initial view of your application here
   function getInitialView() as [Views] or [Views, InputDelegates] {
-    return [new SimpTempInfoView(_simpTempState as SimpTempState)];
+    if (_simpTempState.getStatus().getCode() == Status.DONE) {
+      return [
+        new SimpTempView(_simpTempState as SimpTempState),
+        new SimpTempDelegate(),
+      ];
+    } else {
+      return [new SimpTempInfoView(_simpTempState as SimpTempState)];
+    }
   }
 }
 
