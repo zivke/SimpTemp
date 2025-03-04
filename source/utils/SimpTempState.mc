@@ -9,7 +9,8 @@ import Toybox.Timer;
 (:glance)
 class Status {
   enum Code {
-    UNKNOWN_ERROR = -4,
+    UNKNOWN_ERROR = -5,
+    UNSUPPORTED = -4,
     NO_MIN_MAX_TEMPERATURE = -3,
     NO_CURRENT_TEMPERATURE = -2,
     INVALID_DATA = -1,
@@ -34,27 +35,43 @@ class Status {
   }
 
   function getMessage() as String {
+    var message = "";
+    if (_code < 0) {
+      message = "Error: ";
+    }
+
     switch (self._code) {
+      case UNKNOWN_ERROR:
+        message += "Unknown";
+        break;
+      case UNSUPPORTED:
+        message += "Sensors not supported";
+        break;
       case NO_MIN_MAX_TEMPERATURE:
-        return "No minimum or maximum temperature";
+        message += "No minimum or maximum temperature";
+        break;
       case NO_CURRENT_TEMPERATURE:
-        return "No current temperature";
+        message += "No current temperature";
+        break;
       case INVALID_DATA:
-        return "Invalid data";
+        message += "Invalid data";
+        break;
       case INITIALIZING:
-        return "Initializing...";
+        message += "Initializing...";
+        break;
       case LOADING:
-        return "Loading...";
+        message += "Loading...";
+        break;
       case DONE:
-        return "Done";
+        message += "Done";
+        break;
       default: {
-        if (_code < 0) {
-          return "Unknown error";
-        } else {
-          return "Status unknown";
-        }
+        message += "Status unknown";
+        break;
       }
     }
+
+    return message;
   }
 }
 
@@ -89,16 +106,17 @@ class SimpTempState {
   private var _retryCount as Number = 0;
 
   function initialize() {
+    self._status = new Status();
+    _timer = new Timer.Timer();
+
     // Check device for SensorHistory compatibility
     if (
       !(Toybox has :SensorHistory) ||
       !(Toybox.SensorHistory has :getTemperatureHistory)
     ) {
-      throw new UnsupportedException("Sensor history not supported");
+      _status.setCode(Status.UNSUPPORTED);
+      return;
     }
-
-    self._status = new Status();
-    _timer = new Timer.Timer();
 
     load();
   }
@@ -114,12 +132,9 @@ class SimpTempState {
     } else {
       _retryCount += 1;
       if (_retryCount >= 4) {
+        // Fatal error - stop everything and keep the last error
         _timer.stop();
-        WatchUi.switchToView(
-          new SimpTempInfoView("Error: " + _status.getMessage()),
-          null,
-          WatchUi.SLIDE_IMMEDIATE
-        );
+        WatchUi.requestUpdate();
         return;
       }
     }

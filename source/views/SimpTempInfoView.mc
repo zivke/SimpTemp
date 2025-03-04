@@ -3,10 +3,10 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 
 class SimpTempInfoView extends WatchUi.View {
-  private var _text as String;
+  private var _simpTempState as SimpTempState;
 
-  function initialize(message as String?) {
-    self._text = message != null ? message : "Unknown error";
+  function initialize(simpTempState as SimpTempState) {
+    self._simpTempState = simpTempState;
 
     View.initialize();
   }
@@ -16,11 +16,28 @@ class SimpTempInfoView extends WatchUi.View {
   function onShow() as Void {}
 
   function onUpdate(dc as Dc) as Void {
+    if (_simpTempState.getStatus().getCode() == Status.DONE) {
+      WatchUi.switchToView(
+        new SimpTempView(_simpTempState as SimpTempState),
+        new SimpTempDelegate(),
+        WatchUi.SLIDE_IMMEDIATE
+      );
+    } else {
+      drawInfoMessage(dc, _simpTempState.getStatus().getMessage());
+    }
+  }
+
+  function onHide() as Void {}
+
+  private function drawInfoMessage(
+    dc as Graphics.Dc,
+    message as String?
+  ) as Void {
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
     dc.clear();
 
     var infoMessage = new WatchUi.TextArea({
-      :text => _text,
+      :text => message != null ? message : "Unknown error",
       :backgroundColor => Graphics.COLOR_BLACK,
       :color => Graphics.COLOR_WHITE,
       :font => Graphics.FONT_TINY,
@@ -33,6 +50,4 @@ class SimpTempInfoView extends WatchUi.View {
     });
     infoMessage.draw(dc);
   }
-
-  function onHide() as Void {}
 }

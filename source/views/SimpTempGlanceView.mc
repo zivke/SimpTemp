@@ -4,7 +4,7 @@ import Toybox.WatchUi;
 
 (:glance)
 class SimpTempGlanceView extends WatchUi.GlanceView {
-  private var _simpTempState as SimpTempState?;
+  private var _simpTempState as SimpTempState;
 
   function initialize(simpTempState as SimpTempState) {
     self._simpTempState = simpTempState;
@@ -24,7 +24,7 @@ class SimpTempGlanceView extends WatchUi.GlanceView {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
-    if (_simpTempState != null) {
+    if (_simpTempState.getStatus().getCode() == Status.DONE) {
       var temperature = _simpTempState.getTemperature();
       if (temperature != null) {
         var glanceLabel = GlanceView.findDrawableById("GlanceLabel") as Text?;

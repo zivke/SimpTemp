@@ -5,7 +5,6 @@ import Toybox.System;
 import Toybox.Time;
 import Toybox.WatchUi;
 
-(:glance)
 class SimpTempView extends WatchUi.View {
   private var _simpTempState as SimpTempState;
 
@@ -28,14 +27,12 @@ class SimpTempView extends WatchUi.View {
   // Update the view
   function onUpdate(dc as Graphics.Dc) as Void {
     if (_simpTempState.getStatus().getCode() != Status.DONE) {
-      drawInfoMessage(
-        dc,
-        "Waiting: " + _simpTempState.getStatus().getMessage()
+      WatchUi.switchToView(
+        new SimpTempInfoView(_simpTempState as SimpTempState),
+        null,
+        WatchUi.SLIDE_IMMEDIATE
       );
     } else {
-      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-      dc.clear();
-
       drawCurrentTime(dc);
       drawTemperatureValues(dc);
       drawTemperatureChart(dc);
@@ -43,22 +40,6 @@ class SimpTempView extends WatchUi.View {
 
     // Call the parent onUpdate function to redraw the layout
     View.onUpdate(dc);
-  }
-
-  private function drawInfoMessage(dc as Graphics.Dc, message as String?) {
-    var infoMessage = new WatchUi.TextArea({
-      :text => message != null ? message : "Unknown error",
-      :backgroundColor => Graphics.COLOR_BLACK,
-      :color => Graphics.COLOR_WHITE,
-      :font => Graphics.FONT_TINY,
-      :justification => Graphics.TEXT_JUSTIFY_CENTER |
-      Graphics.TEXT_JUSTIFY_VCENTER,
-      :locX => WatchUi.LAYOUT_HALIGN_CENTER,
-      :locY => WatchUi.LAYOUT_VALIGN_CENTER,
-      :width => dc.getWidth() * 0.8,
-      :height => dc.getHeight() * 0.8,
-    });
-    infoMessage.draw(dc);
   }
 
   private function drawCurrentTime(dc as Graphics.Dc) {
