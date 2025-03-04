@@ -4,10 +4,10 @@ import Toybox.WatchUi;
 
 (:glance)
 class SimpTempGlanceView extends WatchUi.GlanceView {
-  private var _simpTempState as SimpTempState;
+  private var _temperatureString as String?;
 
-  function initialize(simpTempState as SimpTempState) {
-    self._simpTempState = simpTempState;
+  function initialize(temperatureString as String?) {
+    self._temperatureString = temperatureString;
 
     GlanceView.initialize();
   }
@@ -24,22 +24,12 @@ class SimpTempGlanceView extends WatchUi.GlanceView {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
-    if (_simpTempState.getStatus().getCode() == Status.DONE) {
-      var temperature = _simpTempState.getTemperature();
-      if (temperature != null) {
-        var glanceLabel = GlanceView.findDrawableById("GlanceLabel") as Text?;
-        if (glanceLabel != null) {
-          var temperatureUnitsText =
-            _simpTempState.getSystemUnits() == System.UNIT_STATUTE
-              ? "°F"
-              : "°C";
-          glanceLabel.setText(
-            loadResource(Rez.Strings.AppName) +
-              "\n" +
-              temperature.format("%.1f") +
-              temperatureUnitsText
-          );
-        }
+    if (_temperatureString != null) {
+      var glanceLabel = GlanceView.findDrawableById("GlanceLabel") as Text?;
+      if (glanceLabel != null) {
+        glanceLabel.setText(
+          loadResource(Rez.Strings.AppName) + "\n" + _temperatureString
+        );
       }
     }
 
