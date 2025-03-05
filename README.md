@@ -6,7 +6,6 @@ A simple minimalistic widget for Garmin watches that:
 - displays the current time
 
 # Supported devices
-- Approach® S50
 - Approach® S70 42mm
 - Approach® S70 47mm
 - Captain Marvel
