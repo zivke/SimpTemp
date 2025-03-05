@@ -155,7 +155,7 @@ class SimpTempState {
     if (startTime == null || endTime == null) {
       _status.setCode(Status.INVALID_DATA);
       _timer.stop();
-      _timer.start(method(:load), _retryDelay, true); // Try to reload every 5 seconds
+      _timer.start(method(:load), _retryDelay, true);
       return;
     }
 
@@ -169,7 +169,7 @@ class SimpTempState {
     if (sensorSample == null || sensorSample.data == null) {
       _status.setCode(Status.NO_CURRENT_TEMPERATURE);
       _timer.stop();
-      _timer.start(method(:load), _retryDelay, true); // Try to reload every 5 seconds
+      _timer.start(method(:load), _retryDelay, true);
       return;
     }
     self._temperature = convertTemperature(sensorSample.data);
@@ -199,7 +199,7 @@ class SimpTempState {
     if (_minimumTemperature == null || _maximumTemperature == null) {
       _status.setCode(Status.INVALID_DATA);
       _timer.stop();
-      _timer.start(method(:load), _retryDelay, true); // Try to reload every 5 seconds
+      _timer.start(method(:load), _retryDelay, true);
       return;
     }
 
