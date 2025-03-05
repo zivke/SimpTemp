@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-03-05
+
+### Added
+
+- Process all known errors and act accordingly
+
+### Changed
+
+- Restyle the glance view
+- Completely redo the info/error reporting
+- Speed up the initial view transition
+- Speed up the glance view loading
+
+### Fixed
+  
+- Eliminate as many failing points as possible to reduce the chances of a crash
+- Fix the icon issues on various devices
+- Remove Approach S50 from supported devices
+
 ## [1.2.1] - 2025-02-28
 
 ### Fixed
@@ -57,7 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic functionality
 - Support for Instinct 2
 
-[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.2.1...HEAD
+[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/zivke/SimpTemp/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/zivke/SimpTemp/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/zivke/SimpTemp/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/zivke/SimpTemp/compare/v1.0.0...v1.1.0
