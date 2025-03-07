@@ -9,11 +9,12 @@ import Toybox.Timer;
 (:glance)
 class Status {
   enum Code {
-    UNKNOWN_ERROR = -5,
-    UNSUPPORTED = -4,
+    UNKNOWN_ERROR = -6,
+    UNSUPPORTED = -5,
+    INVALID_DATA = -4,
     NO_MIN_MAX_TEMPERATURE = -3,
     NO_CURRENT_TEMPERATURE = -2,
-    INVALID_DATA = -1,
+    NO_START_END_TIME = -1,
     INITIALIZING = 0,
     LOADING = 1,
     DONE = 2,
@@ -47,14 +48,17 @@ class Status {
       case UNSUPPORTED:
         message += "Sensors not supported";
         break;
+      case INVALID_DATA:
+        message += "Invalid data";
+        break;
       case NO_MIN_MAX_TEMPERATURE:
         message += "No minimum or maximum temperature";
         break;
       case NO_CURRENT_TEMPERATURE:
         message += "No current temperature";
         break;
-      case INVALID_DATA:
-        message += "Invalid data";
+      case NO_START_END_TIME:
+        message += "No start or end time";
         break;
       case INITIALIZING:
         message += "Initializing...";
@@ -153,7 +157,7 @@ class SimpTempState {
     var startTime = temperatureIterator.getOldestSampleTime();
     var endTime = temperatureIterator.getNewestSampleTime();
     if (startTime == null || endTime == null) {
-      _status.setCode(Status.INVALID_DATA);
+      _status.setCode(Status.NO_START_END_TIME);
       _timer.stop();
       _timer.start(method(:load), _retryDelay, true);
       return;
@@ -166,11 +170,31 @@ class SimpTempState {
       _historySize - 1 - Math.floor(totalTimeDiff.value() / 120).toNumber();
 
     var sensorSample = temperatureIterator.next();
-    if (sensorSample == null || sensorSample.data == null) {
-      _status.setCode(Status.NO_CURRENT_TEMPERATURE);
+    if (sensorSample == null) {
+      _status.setCode(Status.INVALID_DATA);
       _timer.stop();
       _timer.start(method(:load), _retryDelay, true);
       return;
+    }
+
+    if (sensorSample.data == null) {
+      // Check if the next sensor sample data is okay
+      sensorSample = temperatureIterator.next();
+      if (sensorSample == null) {
+        _status.setCode(Status.INVALID_DATA);
+        _timer.stop();
+        _timer.start(method(:load), _retryDelay, true);
+        return;
+      }
+
+      if (sensorSample.data == null) {
+        _status.setCode(Status.NO_CURRENT_TEMPERATURE);
+        _timer.stop();
+        _timer.start(method(:load), _retryDelay, true);
+        return;
+      }
+
+      index_correction += 1; // The first sample was discarded
     }
     self._temperature = convertTemperature(sensorSample.data);
 
@@ -197,7 +221,7 @@ class SimpTempState {
     self._maximumTemperature = convertTemperature(temperatureIterator.getMax());
 
     if (_minimumTemperature == null || _maximumTemperature == null) {
-      _status.setCode(Status.INVALID_DATA);
+      _status.setCode(Status.NO_MIN_MAX_TEMPERATURE);
       _timer.stop();
       _timer.start(method(:load), _retryDelay, true);
       return;
