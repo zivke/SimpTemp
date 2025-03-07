@@ -229,7 +229,7 @@ class SimpTempState {
 
     _status.setCode(Status.DONE);
     _timer.stop();
-    _timer.start(method(:load), 60000, true); // Load the temperature data every minute
+    _timer.start(method(:load), 30000, true); // Reload the temperature data every 30 seconds
 
     // WatchUi.requestUpdate(); gets called by _status.setCode()
   }
