@@ -91,12 +91,9 @@ class SimpTempState {
   ).toNumber();
 
   // Determine the best size of the sensor history depending on the screen size and resolution
-  private var _historyHours as Number = Math.floor(
-    System.getDeviceSettings().screenWidth / 30 - _sizeFactor
-  ).toNumber();
-  private var _historySize as Number = _historyHours * 30; // 30 data points per hour, every 2 minutes
-  private var _temperatureHistory as Lang.Array<Number or Float or Null> =
-    new Lang.Array<Number or Float or Null>[_historySize];
+  private var _historyHours as Number;
+  private var _historySize as Number;
+  private var _temperatureHistory as Lang.Array<Number or Float or Null>;
   private var _temperature as Number or Float or Null; // Current temperature value
   private var _minimumTemperature as Number or Float or Null; // Minimum temperature value
   private var _maximumTemperature as Number or Float or Null; // Maximum temperature value
@@ -110,8 +107,19 @@ class SimpTempState {
   private var _retryCount as Number = 0;
 
   function initialize() {
+    self._historyHours = Math.floor(
+      System.getDeviceSettings().screenWidth / 30 - _sizeFactor
+    ).toNumber();
+    if (self._historyHours > 6) {
+      self._historyHours = 6;
+    }
+    self._historySize = self._historyHours * 30; // 30 data points per hour, every 2 minutes
+    self._temperatureHistory = new Lang.Array<
+      Number or Float or Null
+    >[_historySize];
+
     self._status = new Status();
-    _timer = new Timer.Timer();
+    self._timer = new Timer.Timer();
 
     // Check device for SensorHistory compatibility
     if (
