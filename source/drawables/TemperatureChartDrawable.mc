@@ -82,7 +82,7 @@ class TemperatureChartDrawable extends WatchUi.Drawable {
     // Draw hour marks
     dc.setColor(_backgroundColor, Graphics.COLOR_TRANSPARENT); // Inverted color
     // 30 measurements per hour = one line every 30 values
-    for (var i = chartX + 30; i < chartWidth; i += 30) {
+    for (var i = chartX + 30; i < chartX + chartWidth; i += 30) {
       dc.drawLine(i, chartY + chartHeight, i, chartY + chartHeight - 4);
     }
 
