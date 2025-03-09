@@ -55,11 +55,10 @@ class SimpTempView extends WatchUi.View {
   // Draw the temperature values
   private function drawTemperatureValues(dc as Graphics.Dc) {
     // Set the temperature label value
+    var currentTemperature = _simpTempState.getTemperature();
     var temperatureLabel = View.findDrawableById("temperatureValue") as Text?;
-    if (temperatureLabel != null) {
-      temperatureLabel.setText(
-        _simpTempState.getTemperature().format("%.1f") + "°"
-      );
+    if (temperatureLabel != null && currentTemperature != null) {
+      temperatureLabel.setText(currentTemperature.format("%.1f") + "°");
     }
 
     // Set the minimum temperature label value

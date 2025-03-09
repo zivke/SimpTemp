@@ -184,26 +184,6 @@ class SimpTempState {
       _timer.start(method(:load), _retryDelay, true);
       return;
     }
-
-    if (sensorSample.data == null) {
-      // Check if the next sensor sample data is okay
-      sensorSample = temperatureIterator.next();
-      if (sensorSample == null) {
-        _status.setCode(Status.INVALID_DATA);
-        _timer.stop();
-        _timer.start(method(:load), _retryDelay, true);
-        return;
-      }
-
-      if (sensorSample.data == null) {
-        _status.setCode(Status.NO_CURRENT_TEMPERATURE);
-        _timer.stop();
-        _timer.start(method(:load), _retryDelay, true);
-        return;
-      }
-
-      index_correction += 1; // The first sample was discarded
-    }
     self._temperature = convertTemperature(sensorSample.data);
 
     while (sensorSample != null) {
