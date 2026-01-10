@@ -91,10 +91,12 @@ A simple minimalistic widget for Garmin watches that:
 - Venu® Mercedes-Benz® Collection
 - Venu® Sq 2
 - Venu® Sq 2 Music
-- vívoactive® 3 Music
-- vívoactive® 4
-- vívoactive® 4S
-- vívoactive® 5
+- vívoactive® 3 Music[^1]
+- vívoactive® 4[^1]
+- vívoactive® 4S[^1]
+- vívoactive® 5[^1]
+
+[^1]: Device requires an external temperature sensor to work properly
 
 # Donations
 If you have found this software to be useful, please consider donating to one of the following:
