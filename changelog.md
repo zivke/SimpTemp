@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-24
+
 ### Added
 
 - Support for newer devices: fēnix® 8 Pro 47mm / 51mm / MicroLED / quatix® 8
@@ -102,7 +104,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic functionality
 - Support for Instinct 2
 
-[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.3.2...HEAD
+[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/zivke/SimpTemp/compare/v1.3.2...v1.4.0
 [1.3.2]: https://github.com/zivke/SimpTemp/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/zivke/SimpTemp/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/zivke/SimpTemp/compare/v1.2.1...v1.3.0
