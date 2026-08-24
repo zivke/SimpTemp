@@ -1,0 +1,86 @@
+{
+  "name": "simptemp",
+  // Dockerfile rather than a bare image: the simulator needs OS libs that no
+  // feature installs. Features still apply on top.
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "garmin.monkey-c",
+        "redhat.vscode-xml",
+        "github.vscode-pull-request-github",
+        "eamodio.gitlens",
+        "anthropic.claude-code"
+      ],
+      "settings": {
+        "monkeyC.developerKeyPath": "/home/vscode/.ciq/developer_key.der",
+        "monkeyC.typeCheckLevel": "Strict",
+        "monkeyC.javaPath": "/usr/bin/java",
+        "xml.fileAssociations": [
+          {
+            "pattern": "**/manifest.xml",
+            "systemId": "https://developer.garmin.com/downloads/connect-iq/monkey-c/manifest.xsd"
+          }
+        ],
+        // Lets the folderOpen task in .vscode/tasks.json run without the
+        // "allow automatic tasks?" prompt on every window
+        "task.allowAutomaticTasks": "on",
+        "files.associations": {
+          "*.mc": "monkeyc",
+          "monkey.jungle": "properties"
+        }
+      }
+    }
+  },
+
+  "mounts": [
+    // Per-project, same as yours — sign in once per devcontainer
+    "source=claude-config-${devcontainerId},target=/home/vscode/.claude,type=volume",
+    // Deliberately NOT ${devcontainerId}: the SDK is multi-GB and the developer
+    // key is one identity across all your watch projects. Shared on purpose.
+    // ciq-keys must hold the SAME key SimpTemp was published with — see
+    // .devcontainer/README.md before the first build.
+    "source=ciq-sdk,target=/home/vscode/.Garmin,type=volume",
+    "source=ciq-sdkmanager,target=/home/vscode/.connect-iq-sdk-manager,type=volume",
+    "source=ciq-keys,target=/home/vscode/.ciq,type=volume",
+    // X11 socket so the simulator window reaches the host
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"
+  ],
+
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "CIQ_SDK_VERSION": "${localEnv:CIQ_SDK_VERSION}",
+    "CIQ_DEVICE": "${localEnv:CIQ_DEVICE}",
+    // Auto-update channel for the native install: latest (default) or stable.
+    // Note there is deliberately no DISABLE_AUTOUPDATER here — leaving it unset
+    // is what keeps the background updater running.
+    "CLAUDE_CHANNEL": "${localEnv:CLAUDE_CHANNEL}"
+  },
+
+  "remoteEnv": {
+    // ~/.local/bin: native Claude Code installer.
+    // ~/.local/ciq-sdk/bin: stable symlink to the version-stamped SDK bin dir,
+    // refreshed by post-create.sh and `make sdk-link`.
+    "PATH": "/home/vscode/.local/bin:/home/vscode/.local/ciq-sdk/bin:${containerEnv:PATH}"
+  },
+
+  "remoteUser": "vscode",
+
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // Runs on every container start, not just creation: pulls any release that
+  // landed while the container was stopped, so a long-lived container doesn't
+  // drift. Never fails the start.
+  "postStartCommand": "bash -c 'claude update >/tmp/claude-update.log 2>&1 || true'"
+}

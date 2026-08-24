@@ -1,0 +1,6 @@
+# Test build: the app plus source-test/. A separate jungle so test code can
+# never end up in a release .prg. Mirrors monkey.jungle, so if you add source
+# or resource paths there, add them here too.
+project.manifest = manifest.xml
+
+base.sourcePath = source;source-test

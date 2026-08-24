@@ -5,3 +5,9 @@
 # Build
 bin/
 build/
+*.prg
+*.iq
+
+# Other
+*.der
+*.pem
