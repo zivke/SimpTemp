@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for newer devices: fēnix® 8 Pro 47mm / 51mm / MicroLED / quatix® 8
+  Pro 47mm / 51mm, Forerunner® 70, Forerunner® 170, Forerunner® 170 Music,
+  Forerunner® 570 42mm, Forerunner® 570 47mm, Forerunner® 970, Instinct®
+  Crossover AMOLED, D2™ Mach 2, D2™ Mach 2 Pro, Descent™ G2, Venu® 4 41mm,
+  Venu® 4 45mm / D2™ Air X15, Venu® X1, vívoactive® 6
+
 ## [1.3.2] - 2025-03-09
 
 ### Fixed

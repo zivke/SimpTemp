@@ -12,8 +12,11 @@ A simple minimalistic widget for Garmin watches that:
 - D2™ Air
 - D2™ Air X10
 - D2™ Mach 1
+- D2™ Mach 2
+- D2™ Mach 2 Pro
 - Darth Vader™
 - Descent™ G1 / G1 Solar
+- Descent™ G2
 - Descent™ Mk2 / Descent™ Mk2i
 - Descent™ Mk2 S
 - Descent™ Mk3 43mm / Mk3i 43mm
@@ -42,12 +45,16 @@ A simple minimalistic widget for Garmin watches that:
 - fēnix® 7X Pro - Solar Edition (no Wi-Fi)
 - fēnix® 8 43mm
 - fēnix® 8 47mm / 51mm
+- fēnix® 8 Pro 47mm / 51mm / MicroLED / quatix® 8 Pro 47mm / 51mm
 - fēnix® 8 Solar 47mm
 - fēnix® 8 Solar 51mm
 - fēnix® E
 - First Avenger
+- Forerunner® 70[^1]
 - Forerunner® 165
 - Forerunner® 165 Music
+- Forerunner® 170
+- Forerunner® 170 Music
 - Forerunner® 245
 - Forerunner® 245 Music
 - Forerunner® 255
@@ -56,12 +63,15 @@ A simple minimalistic widget for Garmin watches that:
 - Forerunner® 255s Music
 - Forerunner® 265
 - Forerunner® 265s
+- Forerunner® 570 42mm
+- Forerunner® 570 47mm
 - Forerunner® 645 Music
 - Forerunner® 745
 - Forerunner® 945
 - Forerunner® 945 LTE
 - Forerunner® 955 / Solar
 - Forerunner® 965
+- Forerunner® 970
 - Instinct® 2 / Solar / Dual Power / dēzl Edition
 - Instinct® 2S / Solar / Dual Power
 - Instinct® 2X Solar
@@ -69,6 +79,7 @@ A simple minimalistic widget for Garmin watches that:
 - Instinct® 3 AMOLED 50mm
 - Instinct® 3 Solar 45mm / 50mm
 - Instinct® Crossover
+- Instinct® Crossover AMOLED
 - Instinct® E 40mm
 - Instinct® E 45mm
 - MARQ® (Gen 2) Athlete / Adventurer / Captain / Golfer / Carbon Edition / Commander - Carbon Edition
@@ -88,13 +99,17 @@ A simple minimalistic widget for Garmin watches that:
 - Venu® 2S
 - Venu® 3
 - Venu® 3S
+- Venu® 4 41mm
+- Venu® 4 45mm / D2™ Air X15
 - Venu® Mercedes-Benz® Collection
 - Venu® Sq 2
 - Venu® Sq 2 Music
+- Venu® X1
 - vívoactive® 3 Music[^1]
 - vívoactive® 4[^1]
 - vívoactive® 4S[^1]
 - vívoactive® 5[^1]
+- vívoactive® 6[^1]
 
 [^1]: Device requires an external temperature sensor to work properly
 
